@@ -1,0 +1,231 @@
+﻿@model OD.UI.ViewModel.SinifDersOgrenciListView
+@using OD.Bll.Concrete;
+@{
+    Layout = "~/Views/Shared/_OgretmenLayout.cshtml";
+}
+
+<div class="row mt-3">
+    <div class="col-sm-3">
+        <a href="#" class="btn btn-primary" id="btnyoklamafiltre"><i class="fa fa-plus"></i> Yeni Yoklama Al</a>
+    </div>
+</div>
+@if (Model.FiltreUygulandıMı == true)
+{
+    <div class="row mt-5">
+        <div class="col-sm-4">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Bilgiler</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body task-panel">
+                        <div class="list-group mb-0">
+                            <a href="#" class="list-group-item">
+                                <span class="pull-right">@Model.Sinif</span>
+                                Sınıf :
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="pull-right">@Model.Sube</span>
+                                Şube :
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="pull-right">@Model.DersAdi</span>
+                                Ders Adı :
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="pull-right">@Model.DersGrupAdi</span>
+                                Ders Saati :
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <span class="pull-right">@Model.Tarih.ToLongDateString()</span>
+                                Tarih :
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="panel panel-default card-view">
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        @using (Ajax.BeginForm("YoklamaKaydet", "Ogretmen", new AjaxOptions { OnSuccess = "YoklamaKaydetResult", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+                        {
+                            @Html.HiddenFor(m => m.DersGrupID)
+                            @Html.HiddenFor(m => m.DersID)
+                            @Html.HiddenFor(m => m.Sinif)
+                            @Html.HiddenFor(m => m.Sube)
+                            @Html.HiddenFor(m => m.Tarih)
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr class="bg-light">
+                                        <th>Seç</th>
+                                        <th>Öğrenci No</th>
+                                        <th>Adı</th>
+                                        <th>Soyadı</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OgrenciListe)
+                                    {
+                                        <tr>
+                                            <td align="center"><input type="checkbox" id="check" name="OgrenciIDListe" value="@item.OgrenciID" data-id="@item.OgrenciNo" data-ad="@item.Adi @item.Soyadi" /></td>
+                                            <td>@item.OgrenciNo</td>
+                                            <td>@item.Adi</td>
+                                            <td>@item.Soyadi</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="col-md-12"><input type="submit" class="btn btn-success" value="Yoklamayı Kaydet" /></div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row mt-5">
+        <div class="col-sm-12">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Yoklama Listesi</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <table id="datable_1" class="table table-hover display  pb-30">
+                            <thead>
+                                <tr class="bg-light">
+                                    <th>ID</th>
+                                    <th>Tarih</th>
+                                    <th>Ders Adı</th>
+                                    <th>Ders Saati</th>
+                                    <th>Sınıf</th>
+                                    <th>Şube</th>
+                                    <th>Öğrenci Bilgileri</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in (List<OD.Model.Yoklamalar>)ViewData["YoklamaListe"])
+                                {
+                                    <tr>
+                                        <td>@item.YoklamaID</td>
+                                        <td>@item.Tarih</td>
+                                        <td>@item.Dersler.DersAdi</td>
+                                        <td>@item.DersGruplari.DersGrupAdi</td>
+                                        <td>@item.Sinif</td>
+                                        <td>@item.Sube</td>
+                                        <td>
+                                            @{
+                                                if (item.OgrenciIDListe != null)
+                                                {
+                                                    string[] liste = item.OgrenciIDListe.Split(',');
+                                                    OgrenciRepository ogrrepo = new OgrenciRepository();
+                                                    OD.Model.Ogrenciler ogr = new OD.Model.Ogrenciler();
+                                                    for (int i = 0; i < liste.Length; i++)
+                                                    {
+                                                        int id = Convert.ToInt32(liste[i]);
+                                                        ogr = ogrrepo.Get(id);
+                                                        <span>@ogr.OgrenciNo - @ogr.Adi @ogr.Soyadi</span><br />
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <span class="bg-success">Sınıfta gelmeyen öğrenci yoktur.</span>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="modal fade" id="filtre-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Sınıf Seçiniz</h4>
+            </div>
+            <div class="modal-body" id="YoklamaFiltre">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/DataTable_Turkish.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#datable_1').DataTable();
+
+            // Sort by columns 1 and 2 and redraw
+            table
+                .order([0, 'desc'])
+                .draw();
+        });
+
+        $("input[type='checkbox']").change(function () {
+            if (this.checked) {
+                var id = $(this).data("id");
+                var adsoyad = $(this).data("ad");
+                toastr.success(id + "-" + adsoyad + " öğrenci seçildi.");
+            }
+        });
+
+        $(document).on("click", "#btnyoklamafiltre", function () {
+            var url = "/Ogretmen/_YoklamaFiltreModal";
+
+            $("#YoklamaFiltre").load(url, function () {
+                $("#filtre-modal").modal("show");
+            })
+        });
+        function YoklamaKaydetResult(result) {
+            if (result.IsSuccess == true) {
+
+                var dialog = bootbox.dialog({
+                    title: 'BAŞARILI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-success',
+                            callback: function () {
+                                window.location.href = "/Ogretmen/YoklamaAl";
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                                window.location.href = "/Ogretmen/YoklamaAl";
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+}

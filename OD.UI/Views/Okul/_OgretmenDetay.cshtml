@@ -1,0 +1,153 @@
+﻿@model OD.Model.Ogretmenler
+@using OD.UI.Utils
+@{
+    Fonksiyon f = new Fonksiyon();
+    List<OD.Model.AtananDersler> atanandersler = ViewData["AtananDersler"] as List<OD.Model.AtananDersler>;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-muted">Okul Adı : </label>
+                    <div class="col-md-12 text-black-50">
+                        @Model.Okullar.Adi
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-muted">Ad Soyad : </label>
+                    <div class="col-md-12">
+                        @Model.AdSoyad
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="text-muted">Kayıt Tarihi : </label>
+                            <div class="col-md-12">
+                                @Convert.ToDateTime(Model.KayitTarihi).ToLongDateString()
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="text-muted">Aktif Mi? : </label>
+                            <div class="col-md-12">
+                                @if (Model.AktifMi == true)
+                                {
+                                    <span class="label label-success inline-block">EVET</span>
+                                }
+                                else
+                                {
+                                    <label class="alert alert-danger small">HAYIR</label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-muted">Dönem : </label>
+                    <div class="col-md-12">
+                        @Model.Donemler.DonemAdi
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-12">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    @*<th>Seç</th>*@
+                    <th>Sınıf</th>
+                    <th>Şube</th>
+                    <th>Ders</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody id="SetDersList">
+            </tbody>
+        </table>
+    </div><!-- END column -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        DataBind();
+    })
+
+    function DataBind() {
+        var id =@Html.Raw(Model.OgretmenID);
+        var url = "/Okul/OgretmeneAtananDersler/" + id;
+        var SetData = $("#SetDersList");
+        SetData.html("");
+        $.getJSON(url, function (DersListe) {
+                for (var i in DersListe.Result) {
+                    //var checkbox = "<div class='custom-control custom-checkbox'><input type='checkbox' name='secilmis' value='" + DersListe.Result[i].ID + "' /></div>";
+                    //var checkbox = "<div class='custom-control custom-checkbox'><input type='checkbox' name='secilmis' class='custom-control-input' id='same-address' value='" + CargoList.Result[i].ID + "'></div>";
+                    var Data = "<tr>" +
+                        //"<td>" + checkbox + "</td>" +
+                        "<td>" + DersListe.Result[i].Sinif + "</td>" +
+                        "<td>" + DersListe.Result[i].Sube + "</td>" +
+                        "<td>" + DersListe.Result[i].DersAdi + "</td>" +
+                       // "<td>" + "<a href='#' class='btn btn-primary btn-icon-anim btn-circle' id='Edit' data-id='" + DersListe.Result[i].ID + "'><i class='fa fa-pencil'></i></a>" + "</td>" +
+                        "<td>" + "<a href='#' class='btn btn-danger btn-icon-anim btn-circle' id='Delete' data-id='" + DersListe.Result[i].ID + "'><i class='fa fa-times'></i>" + "</td>" +
+                        "</tr>";
+                    SetData.append(Data);
+                }
+            });
+    };
+
+
+    $(document).on("click", "#Delete", function () {
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: '/Okul/AtananDersSil/' + id,
+            type: 'POST',
+            success: function (result) {
+                if (result.IsSuccess == true) {
+                    //window.location.href = '/Okul/DersAtamalari';
+                    $("#SetDersList").html("");
+                    DataBind();
+                    toastr.success(result.UserMessage);
+                }
+                else {
+                    var dialog = bootbox.dialog({
+                        title: 'HATA',
+                        message: "<p>" + result.UserMessage + "</p>",
+                        buttons: {
+                            ok: {
+                                label: "Tamam",
+                                className: 'btn-danger',
+                                callback: function () {
+                                    //window.location.href = '/Okul/Dersler';
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        })
+
+    });
+</script>

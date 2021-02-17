@@ -1,0 +1,1338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OnlineDevDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AdminLog">
+          <Key>
+            <PropertyRef Name="AdminLogID" />
+          </Key>
+          <Property Name="AdminLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="20" />
+          <Property Name="Url" Type="nvarchar" MaxLength="250" />
+          <Property Name="AdminID" Type="int" />
+          <Property Name="ExecutionMs" Type="nvarchar" MaxLength="10" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="AdminTBL">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AtananDersler">
+          <Key>
+            <PropertyRef Name="AtananDersID" />
+          </Key>
+          <Property Name="AtananDersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OgretmenID" Type="int" />
+          <Property Name="DersID" Type="int" />
+          <Property Name="Sinif" Type="int" />
+          <Property Name="Sube" Type="nvarchar" MaxLength="50" />
+          <Property Name="DonemID" Type="int" />
+          <Property Name="AktifMi" Type="bit" />
+        </EntityType>
+        <EntityType Name="DersGruplari">
+          <Key>
+            <PropertyRef Name="DersGrupID" />
+          </Key>
+          <Property Name="DersGrupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DersGrupAdi" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Dersler">
+          <Key>
+            <PropertyRef Name="DersID" />
+          </Key>
+          <Property Name="DersID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DersAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="OkulID" Type="int" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="DonemID" Type="int" />
+          <Property Name="SinifDuzey" Type="int" />
+        </EntityType>
+        <EntityType Name="Donemler">
+          <Key>
+            <PropertyRef Name="DonemID" />
+          </Key>
+          <Property Name="DonemID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DonemAdi" Type="nvarchar" MaxLength="150" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="Baslama" Type="datetime" />
+          <Property Name="Bitis" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ilceler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ilceadi" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="sehirid" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="iller">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sehiradi" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Ogrenciler">
+          <Key>
+            <PropertyRef Name="OgrenciID" />
+          </Key>
+          <Property Name="OgrenciID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OgrenciNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyadi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sinif" Type="int" />
+          <Property Name="Sube" Type="nvarchar" MaxLength="50" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="OkulID" Type="int" />
+          <Property Name="KayitTarihi" Type="datetime" />
+          <Property Name="GuncellemeTarihi" Type="datetime" />
+          <Property Name="DonemID" Type="int" />
+          <Property Name="SilmeTarihi" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Ogretmenler">
+          <Key>
+            <PropertyRef Name="OgretmenID" />
+          </Key>
+          <Property Name="OgretmenID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdSoyad" Type="nvarchar" MaxLength="150" />
+          <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="KayitTarihi" Type="datetime" />
+          <Property Name="OkulID" Type="int" />
+          <Property Name="DonemID" Type="int" />
+        </EntityType>
+        <EntityType Name="OgretmenLog">
+          <Key>
+            <PropertyRef Name="OgretmenLogID" />
+          </Key>
+          <Property Name="OgretmenLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="20" />
+          <Property Name="Url" Type="nvarchar" MaxLength="250" />
+          <Property Name="OgretmenID" Type="int" />
+          <Property Name="ExecutionMs" Type="nvarchar" MaxLength="10" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Okullar">
+          <Key>
+            <PropertyRef Name="OkulID" />
+          </Key>
+          <Property Name="OkulID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Adi" Type="nvarchar" MaxLength="500" />
+          <Property Name="YetkiliAdSoyad" Type="nvarchar" MaxLength="150" />
+          <Property Name="YetkiliTel" Type="nvarchar" MaxLength="15" />
+          <Property Name="YetkiliEmail" Type="nvarchar" MaxLength="150" />
+          <Property Name="ilID" Type="int" />
+          <Property Name="ilceID" Type="int" />
+          <Property Name="Adres" Type="text" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="KayitTarihi" Type="datetime" />
+          <Property Name="BaslangicTarihi" Type="datetime" />
+          <Property Name="BitisTarihi" Type="datetime" />
+          <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="50" />
+          <Property Name="OgrenciListeYuklediMi" Type="bit" />
+        </EntityType>
+        <EntityType Name="OkulLog">
+          <Key>
+            <PropertyRef Name="OkulLogID" />
+          </Key>
+          <Property Name="OkulLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="50" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="20" />
+          <Property Name="Url" Type="nvarchar" MaxLength="250" />
+          <Property Name="OkulID" Type="int" />
+          <Property Name="ExecutionMs" Type="nvarchar" MaxLength="10" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Talepler">
+          <Key>
+            <PropertyRef Name="TalepID" />
+          </Key>
+          <Property Name="TalepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="OkulID" Type="int" />
+          <Property Name="Aciklama" Type="text" />
+        </EntityType>
+        <EntityType Name="Yoklamalar">
+          <Key>
+            <PropertyRef Name="YoklamaID" />
+          </Key>
+          <Property Name="YoklamaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OgretmenID" Type="int" />
+          <Property Name="OgrenciIDListe" Type="nvarchar(max)" />
+          <Property Name="DersID" Type="int" />
+          <Property Name="DersGrupID" Type="int" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="DonemID" Type="int" />
+          <Property Name="AktifMi" Type="bit" />
+          <Property Name="OkulID" Type="int" />
+          <Property Name="Sinif" Type="int" />
+          <Property Name="Sube" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_AdminLog_AdminTBL">
+          <End Role="AdminTBL" Type="Self.AdminTBL" Multiplicity="0..1" />
+          <End Role="AdminLog" Type="Self.AdminLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminTBL">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="AdminLog">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AtananDersler_Dersler">
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="0..1" />
+          <End Role="AtananDersler" Type="Self.AtananDersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dersler">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="AtananDersler">
+              <PropertyRef Name="DersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AtananDersler_Donemler">
+          <End Role="Donemler" Type="Self.Donemler" Multiplicity="0..1" />
+          <End Role="AtananDersler" Type="Self.AtananDersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="AtananDersler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AtananDersler_Ogretmenler">
+          <End Role="Ogretmenler" Type="Self.Ogretmenler" Multiplicity="0..1" />
+          <End Role="AtananDersler" Type="Self.AtananDersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogretmenler">
+              <PropertyRef Name="OgretmenID" />
+            </Principal>
+            <Dependent Role="AtananDersler">
+              <PropertyRef Name="OgretmenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dersler_Donemler">
+          <End Role="Donemler" Type="Self.Donemler" Multiplicity="0..1" />
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dersler_Okullar">
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="0..1" />
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ilceler_iller">
+          <End Role="iller" Type="Self.iller" Multiplicity="1" />
+          <End Role="ilceler" Type="Self.ilceler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="iller">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ilceler">
+              <PropertyRef Name="sehirid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogrenciler_Donemler">
+          <End Role="Donemler" Type="Self.Donemler" Multiplicity="0..1" />
+          <End Role="Ogrenciler" Type="Self.Ogrenciler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Ogrenciler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogrenciler_Okullar">
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="0..1" />
+          <End Role="Ogrenciler" Type="Self.Ogrenciler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Ogrenciler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogretmenler_Donemler">
+          <End Role="Donemler" Type="Self.Donemler" Multiplicity="0..1" />
+          <End Role="Ogretmenler" Type="Self.Ogretmenler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Ogretmenler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogretmenler_Okullar">
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="0..1" />
+          <End Role="Ogretmenler" Type="Self.Ogretmenler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Ogretmenler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OgretmenLog_Ogretmenler">
+          <End Role="Ogretmenler" Type="Self.Ogretmenler" Multiplicity="0..1" />
+          <End Role="OgretmenLog" Type="Self.OgretmenLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogretmenler">
+              <PropertyRef Name="OgretmenID" />
+            </Principal>
+            <Dependent Role="OgretmenLog">
+              <PropertyRef Name="OgretmenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Okullar_ilceler">
+          <End Role="ilceler" Type="Self.ilceler" Multiplicity="0..1" />
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ilceler">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Okullar">
+              <PropertyRef Name="ilceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Okullar_iller">
+          <End Role="iller" Type="Self.iller" Multiplicity="0..1" />
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="iller">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Okullar">
+              <PropertyRef Name="ilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OkulLog_Okullar">
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="0..1" />
+          <End Role="OkulLog" Type="Self.OkulLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="OkulLog">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Talepler_Okullar">
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="0..1" />
+          <End Role="Talepler" Type="Self.Talepler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Talepler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_DersGruplari">
+          <End Role="DersGruplari" Type="Self.DersGruplari" Multiplicity="0..1" />
+          <End Role="Yoklamalar" Type="Self.Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DersGruplari">
+              <PropertyRef Name="DersGrupID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="DersGrupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Dersler">
+          <End Role="Dersler" Type="Self.Dersler" Multiplicity="0..1" />
+          <End Role="Yoklamalar" Type="Self.Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dersler">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="DersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Donemler">
+          <End Role="Donemler" Type="Self.Donemler" Multiplicity="0..1" />
+          <End Role="Yoklamalar" Type="Self.Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Ogretmenler">
+          <End Role="Ogretmenler" Type="Self.Ogretmenler" Multiplicity="0..1" />
+          <End Role="Yoklamalar" Type="Self.Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogretmenler">
+              <PropertyRef Name="OgretmenID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="OgretmenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Okullar">
+          <End Role="Okullar" Type="Self.Okullar" Multiplicity="0..1" />
+          <End Role="Yoklamalar" Type="Self.Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OnlineDevDbModelStoreContainer">
+          <EntitySet Name="AdminLog" EntityType="Self.AdminLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AdminTBL" EntityType="Self.AdminTBL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AtananDersler" EntityType="Self.AtananDersler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DersGruplari" EntityType="Self.DersGruplari" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dersler" EntityType="Self.Dersler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Donemler" EntityType="Self.Donemler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ilceler" EntityType="Self.ilceler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="iller" EntityType="Self.iller" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ogrenciler" EntityType="Self.Ogrenciler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ogretmenler" EntityType="Self.Ogretmenler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OgretmenLog" EntityType="Self.OgretmenLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Okullar" EntityType="Self.Okullar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OkulLog" EntityType="Self.OkulLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Talepler" EntityType="Self.Talepler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yoklamalar" EntityType="Self.Yoklamalar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AdminLog_AdminTBL" Association="Self.FK_AdminLog_AdminTBL">
+            <End Role="AdminTBL" EntitySet="AdminTBL" />
+            <End Role="AdminLog" EntitySet="AdminLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AtananDersler_Dersler" Association="Self.FK_AtananDersler_Dersler">
+            <End Role="Dersler" EntitySet="Dersler" />
+            <End Role="AtananDersler" EntitySet="AtananDersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AtananDersler_Donemler" Association="Self.FK_AtananDersler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="AtananDersler" EntitySet="AtananDersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AtananDersler_Ogretmenler" Association="Self.FK_AtananDersler_Ogretmenler">
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+            <End Role="AtananDersler" EntitySet="AtananDersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dersler_Donemler" Association="Self.FK_Dersler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dersler_Okullar" Association="Self.FK_Dersler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ilceler_iller" Association="Self.FK_ilceler_iller">
+            <End Role="iller" EntitySet="iller" />
+            <End Role="ilceler" EntitySet="ilceler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogrenciler_Donemler" Association="Self.FK_Ogrenciler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Ogrenciler" EntitySet="Ogrenciler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogrenciler_Okullar" Association="Self.FK_Ogrenciler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Ogrenciler" EntitySet="Ogrenciler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogretmenler_Donemler" Association="Self.FK_Ogretmenler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogretmenler_Okullar" Association="Self.FK_Ogretmenler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OgretmenLog_Ogretmenler" Association="Self.FK_OgretmenLog_Ogretmenler">
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+            <End Role="OgretmenLog" EntitySet="OgretmenLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Okullar_ilceler" Association="Self.FK_Okullar_ilceler">
+            <End Role="ilceler" EntitySet="ilceler" />
+            <End Role="Okullar" EntitySet="Okullar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Okullar_iller" Association="Self.FK_Okullar_iller">
+            <End Role="iller" EntitySet="iller" />
+            <End Role="Okullar" EntitySet="Okullar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OkulLog_Okullar" Association="Self.FK_OkulLog_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="OkulLog" EntitySet="OkulLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Talepler_Okullar" Association="Self.FK_Talepler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Talepler" EntitySet="Talepler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_DersGruplari" Association="Self.FK_Yoklamalar_DersGruplari">
+            <End Role="DersGruplari" EntitySet="DersGruplari" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Dersler" Association="Self.FK_Yoklamalar_Dersler">
+            <End Role="Dersler" EntitySet="Dersler" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Donemler" Association="Self.FK_Yoklamalar_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Ogretmenler" Association="Self.FK_Yoklamalar_Ogretmenler">
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Okullar" Association="Self.FK_Yoklamalar_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OnlineDevDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DersGruplari">
+          <Key>
+            <PropertyRef Name="DersGrupID" />
+          </Key>
+          <Property Name="DersGrupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DersGrupAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Yoklamalar" Relationship="OnlineDevDbModel.FK_Yoklamalar_DersGruplari" FromRole="DersGruplari" ToRole="Yoklamalar" />
+        </EntityType>
+        <EntityType Name="ilceler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ilceadi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="sehirid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="iller" Relationship="OnlineDevDbModel.FK_ilceler_iller" FromRole="ilceler" ToRole="iller" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Okullar_ilceler" FromRole="ilceler" ToRole="Okullar" />
+        </EntityType>
+        <EntityType Name="iller">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sehiradi" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ilceler" Relationship="OnlineDevDbModel.FK_ilceler_iller" FromRole="iller" ToRole="ilceler" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Okullar_iller" FromRole="iller" ToRole="Okullar" />
+        </EntityType>
+        <EntityType Name="Ogrenciler">
+          <Key>
+            <PropertyRef Name="OgrenciID" />
+          </Key>
+          <Property Name="OgrenciID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OgrenciNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sinif" Type="Int32" />
+          <Property Name="Sube" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="OkulID" Type="Int32" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="DonemID" Type="Int32" />
+          <Property Name="SilmeTarihi" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Donemler" Relationship="OnlineDevDbModel.FK_Ogrenciler_Donemler" FromRole="Ogrenciler" ToRole="Donemler" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Ogrenciler_Okullar" FromRole="Ogrenciler" ToRole="Okullar" />
+        </EntityType>
+        <EntityType Name="Talepler">
+          <Key>
+            <PropertyRef Name="TalepID" />
+          </Key>
+          <Property Name="TalepID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="OkulID" Type="Int32" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Talepler_Okullar" FromRole="Talepler" ToRole="Okullar" />
+        </EntityType>
+        <EntityContainer Name="OnlineDevDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DersGruplari" EntityType="Self.DersGruplari" />
+          <EntitySet Name="ilceler" EntityType="Self.ilceler" />
+          <EntitySet Name="iller" EntityType="Self.iller" />
+          <EntitySet Name="Ogrenciler" EntityType="Self.Ogrenciler" />
+          <EntitySet Name="Talepler" EntityType="Self.Talepler" />
+          <AssociationSet Name="FK_ilceler_iller" Association="OnlineDevDbModel.FK_ilceler_iller">
+            <End Role="iller" EntitySet="iller" />
+            <End Role="ilceler" EntitySet="ilceler" />
+          </AssociationSet>
+          <EntitySet Name="OgretmenLog" EntityType="OnlineDevDbModel.OgretmenLog" />
+          <EntitySet Name="OkulLog" EntityType="OnlineDevDbModel.OkulLog" />
+          <EntitySet Name="AdminLog" EntityType="OnlineDevDbModel.AdminLog" />
+          <EntitySet Name="AdminTBL" EntityType="OnlineDevDbModel.AdminTBL" />
+          <AssociationSet Name="FK_AdminLog_AdminTBL" Association="OnlineDevDbModel.FK_AdminLog_AdminTBL">
+            <End Role="AdminTBL" EntitySet="AdminTBL" />
+            <End Role="AdminLog" EntitySet="AdminLog" />
+          </AssociationSet>
+          <EntitySet Name="Donemler" EntityType="OnlineDevDbModel.Donemler" />
+          <EntitySet Name="Ogretmenler" EntityType="OnlineDevDbModel.Ogretmenler" />
+          <AssociationSet Name="FK_Ogrenciler_Donemler" Association="OnlineDevDbModel.FK_Ogrenciler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Ogrenciler" EntitySet="Ogrenciler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogretmenler_Donemler" Association="OnlineDevDbModel.FK_Ogretmenler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OgretmenLog_Ogretmenler" Association="OnlineDevDbModel.FK_OgretmenLog_Ogretmenler">
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+            <End Role="OgretmenLog" EntitySet="OgretmenLog" />
+          </AssociationSet>
+          <EntitySet Name="Okullar" EntityType="OnlineDevDbModel.Okullar" />
+          <AssociationSet Name="FK_Okullar_ilceler" Association="OnlineDevDbModel.FK_Okullar_ilceler">
+            <End Role="ilceler" EntitySet="ilceler" />
+            <End Role="Okullar" EntitySet="Okullar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Okullar_iller" Association="OnlineDevDbModel.FK_Okullar_iller">
+            <End Role="iller" EntitySet="iller" />
+            <End Role="Okullar" EntitySet="Okullar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogrenciler_Okullar" Association="OnlineDevDbModel.FK_Ogrenciler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Ogrenciler" EntitySet="Ogrenciler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ogretmenler_Okullar" Association="OnlineDevDbModel.FK_Ogretmenler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OkulLog_Okullar" Association="OnlineDevDbModel.FK_OkulLog_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="OkulLog" EntitySet="OkulLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Talepler_Okullar" Association="OnlineDevDbModel.FK_Talepler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Talepler" EntitySet="Talepler" />
+          </AssociationSet>
+          <EntitySet Name="Dersler" EntityType="OnlineDevDbModel.Dersler" />
+          <AssociationSet Name="FK_Dersler_Donemler" Association="OnlineDevDbModel.FK_Dersler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Dersler_Okullar" Association="OnlineDevDbModel.FK_Dersler_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Dersler" EntitySet="Dersler" />
+          </AssociationSet>
+          <EntitySet Name="AtananDersler" EntityType="OnlineDevDbModel.AtananDersler" />
+          <AssociationSet Name="FK_AtananDersler_Dersler" Association="OnlineDevDbModel.FK_AtananDersler_Dersler">
+            <End Role="Dersler" EntitySet="Dersler" />
+            <End Role="AtananDersler" EntitySet="AtananDersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AtananDersler_Donemler" Association="OnlineDevDbModel.FK_AtananDersler_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="AtananDersler" EntitySet="AtananDersler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AtananDersler_Ogretmenler" Association="OnlineDevDbModel.FK_AtananDersler_Ogretmenler">
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+            <End Role="AtananDersler" EntitySet="AtananDersler" />
+          </AssociationSet>
+          <EntitySet Name="Yoklamalar" EntityType="OnlineDevDbModel.Yoklamalar" />
+          <AssociationSet Name="FK_Yoklamalar_DersGruplari" Association="OnlineDevDbModel.FK_Yoklamalar_DersGruplari">
+            <End Role="DersGruplari" EntitySet="DersGruplari" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Dersler" Association="OnlineDevDbModel.FK_Yoklamalar_Dersler">
+            <End Role="Dersler" EntitySet="Dersler" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Donemler" Association="OnlineDevDbModel.FK_Yoklamalar_Donemler">
+            <End Role="Donemler" EntitySet="Donemler" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Ogretmenler" Association="OnlineDevDbModel.FK_Yoklamalar_Ogretmenler">
+            <End Role="Ogretmenler" EntitySet="Ogretmenler" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Yoklamalar_Okullar" Association="OnlineDevDbModel.FK_Yoklamalar_Okullar">
+            <End Role="Okullar" EntitySet="Okullar" />
+            <End Role="Yoklamalar" EntitySet="Yoklamalar" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_ilceler_iller">
+          <End Type="OnlineDevDbModel.iller" Role="iller" Multiplicity="1" />
+          <End Type="OnlineDevDbModel.ilceler" Role="ilceler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="iller">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ilceler">
+              <PropertyRef Name="sehirid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="OgretmenLog">
+          <Key>
+            <PropertyRef Name="OgretmenLogID" />
+          </Key>
+          <Property Name="OgretmenLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OgretmenID" Type="Int32" />
+          <Property Name="ExecutionMs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ogretmenler" Relationship="OnlineDevDbModel.FK_OgretmenLog_Ogretmenler" FromRole="OgretmenLog" ToRole="Ogretmenler" />
+        </EntityType>
+        <EntityType Name="OkulLog">
+          <Key>
+            <PropertyRef Name="OkulLogID" />
+          </Key>
+          <Property Name="OkulLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OkulID" Type="Int32" />
+          <Property Name="ExecutionMs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_OkulLog_Okullar" FromRole="OkulLog" ToRole="Okullar" />
+        </EntityType>
+        <EntityType Name="AdminLog">
+          <Key>
+            <PropertyRef Name="AdminLogID" />
+          </Key>
+          <Property Name="AdminLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="AdminID" Type="Int32" />
+          <Property Name="ExecutionMs" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AdminTBL" Relationship="OnlineDevDbModel.FK_AdminLog_AdminTBL" FromRole="AdminLog" ToRole="AdminTBL" />
+        </EntityType>
+        <EntityType Name="AdminTBL">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AdminLog" Relationship="OnlineDevDbModel.FK_AdminLog_AdminTBL" FromRole="AdminTBL" ToRole="AdminLog" />
+        </EntityType>
+        <Association Name="FK_AdminLog_AdminTBL">
+          <End Type="OnlineDevDbModel.AdminTBL" Role="AdminTBL" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.AdminLog" Role="AdminLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AdminTBL">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="AdminLog">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Donemler">
+          <Key>
+            <PropertyRef Name="DonemID" />
+          </Key>
+          <Property Name="DonemID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DonemAdi" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="Baslama" Type="DateTime" Precision="3" />
+          <Property Name="Bitis" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ogrenciler" Relationship="OnlineDevDbModel.FK_Ogrenciler_Donemler" FromRole="Donemler" ToRole="Ogrenciler" />
+          <NavigationProperty Name="Ogretmenler" Relationship="OnlineDevDbModel.FK_Ogretmenler_Donemler" FromRole="Donemler" ToRole="Ogretmenler" />
+          <NavigationProperty Name="Dersler" Relationship="OnlineDevDbModel.FK_Dersler_Donemler" FromRole="Donemler" ToRole="Dersler" />
+          <NavigationProperty Name="AtananDersler" Relationship="OnlineDevDbModel.FK_AtananDersler_Donemler" FromRole="Donemler" ToRole="AtananDersler" />
+          <NavigationProperty Name="Yoklamalar" Relationship="OnlineDevDbModel.FK_Yoklamalar_Donemler" FromRole="Donemler" ToRole="Yoklamalar" />
+        </EntityType>
+        <EntityType Name="Ogretmenler">
+          <Key>
+            <PropertyRef Name="OgretmenID" />
+          </Key>
+          <Property Name="OgretmenID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdSoyad" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+          <Property Name="OkulID" Type="Int32" />
+          <Property Name="DonemID" Type="Int32" />
+          <NavigationProperty Name="Donemler" Relationship="OnlineDevDbModel.FK_Ogretmenler_Donemler" FromRole="Ogretmenler" ToRole="Donemler" />
+          <NavigationProperty Name="OgretmenLog" Relationship="OnlineDevDbModel.FK_OgretmenLog_Ogretmenler" FromRole="Ogretmenler" ToRole="OgretmenLog" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Ogretmenler_Okullar" FromRole="Ogretmenler" ToRole="Okullar" />
+          <NavigationProperty Name="AtananDersler" Relationship="OnlineDevDbModel.FK_AtananDersler_Ogretmenler" FromRole="Ogretmenler" ToRole="AtananDersler" />
+          <NavigationProperty Name="Yoklamalar" Relationship="OnlineDevDbModel.FK_Yoklamalar_Ogretmenler" FromRole="Ogretmenler" ToRole="Yoklamalar" />
+        </EntityType>
+        <Association Name="FK_Ogrenciler_Donemler">
+          <End Type="OnlineDevDbModel.Donemler" Role="Donemler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Ogrenciler" Role="Ogrenciler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Ogrenciler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogretmenler_Donemler">
+          <End Type="OnlineDevDbModel.Donemler" Role="Donemler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Ogretmenler" Role="Ogretmenler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Ogretmenler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OgretmenLog_Ogretmenler">
+          <End Type="OnlineDevDbModel.Ogretmenler" Role="Ogretmenler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.OgretmenLog" Role="OgretmenLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogretmenler">
+              <PropertyRef Name="OgretmenID" />
+            </Principal>
+            <Dependent Role="OgretmenLog">
+              <PropertyRef Name="OgretmenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Okullar">
+          <Key>
+            <PropertyRef Name="OkulID" />
+          </Key>
+          <Property Name="OkulID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Adi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="YetkiliAdSoyad" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="YetkiliTel" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="YetkiliEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ilID" Type="Int32" />
+          <Property Name="ilceID" Type="Int32" />
+          <Property Name="Adres" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" />
+          <Property Name="BaslangicTarihi" Type="DateTime" Precision="3" />
+          <Property Name="BitisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OgrenciListeYuklediMi" Type="Boolean" />
+          <NavigationProperty Name="ilceler" Relationship="OnlineDevDbModel.FK_Okullar_ilceler" FromRole="Okullar" ToRole="ilceler" />
+          <NavigationProperty Name="iller" Relationship="OnlineDevDbModel.FK_Okullar_iller" FromRole="Okullar" ToRole="iller" />
+          <NavigationProperty Name="Ogrenciler" Relationship="OnlineDevDbModel.FK_Ogrenciler_Okullar" FromRole="Okullar" ToRole="Ogrenciler" />
+          <NavigationProperty Name="Ogretmenler" Relationship="OnlineDevDbModel.FK_Ogretmenler_Okullar" FromRole="Okullar" ToRole="Ogretmenler" />
+          <NavigationProperty Name="OkulLog" Relationship="OnlineDevDbModel.FK_OkulLog_Okullar" FromRole="Okullar" ToRole="OkulLog" />
+          <NavigationProperty Name="Talepler" Relationship="OnlineDevDbModel.FK_Talepler_Okullar" FromRole="Okullar" ToRole="Talepler" />
+          <NavigationProperty Name="Dersler" Relationship="OnlineDevDbModel.FK_Dersler_Okullar" FromRole="Okullar" ToRole="Dersler" />
+          <NavigationProperty Name="Yoklamalar" Relationship="OnlineDevDbModel.FK_Yoklamalar_Okullar" FromRole="Okullar" ToRole="Yoklamalar" />
+        </EntityType>
+        <Association Name="FK_Okullar_ilceler">
+          <End Type="OnlineDevDbModel.ilceler" Role="ilceler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ilceler">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Okullar">
+              <PropertyRef Name="ilceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Okullar_iller">
+          <End Type="OnlineDevDbModel.iller" Role="iller" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="iller">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Okullar">
+              <PropertyRef Name="ilID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogrenciler_Okullar">
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Ogrenciler" Role="Ogrenciler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Ogrenciler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ogretmenler_Okullar">
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Ogretmenler" Role="Ogretmenler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Ogretmenler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OkulLog_Okullar">
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.OkulLog" Role="OkulLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="OkulLog">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Talepler_Okullar">
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Talepler" Role="Talepler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Talepler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Dersler">
+          <Key>
+            <PropertyRef Name="DersID" />
+          </Key>
+          <Property Name="DersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DersAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="OkulID" Type="Int32" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="DonemID" Type="Int32" />
+          <Property Name="SinifDuzey" Type="Int32" />
+          <NavigationProperty Name="Donemler" Relationship="OnlineDevDbModel.FK_Dersler_Donemler" FromRole="Dersler" ToRole="Donemler" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Dersler_Okullar" FromRole="Dersler" ToRole="Okullar" />
+          <NavigationProperty Name="AtananDersler" Relationship="OnlineDevDbModel.FK_AtananDersler_Dersler" FromRole="Dersler" ToRole="AtananDersler" />
+          <NavigationProperty Name="Yoklamalar" Relationship="OnlineDevDbModel.FK_Yoklamalar_Dersler" FromRole="Dersler" ToRole="Yoklamalar" />
+        </EntityType>
+        <Association Name="FK_Dersler_Donemler">
+          <End Type="OnlineDevDbModel.Donemler" Role="Donemler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Dersler" Role="Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Dersler_Okullar">
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Dersler" Role="Dersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Dersler">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AtananDersler">
+          <Key>
+            <PropertyRef Name="AtananDersID" />
+          </Key>
+          <Property Name="AtananDersID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OgretmenID" Type="Int32" />
+          <Property Name="DersID" Type="Int32" />
+          <Property Name="Sinif" Type="Int32" />
+          <Property Name="Sube" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DonemID" Type="Int32" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <NavigationProperty Name="Dersler" Relationship="OnlineDevDbModel.FK_AtananDersler_Dersler" FromRole="AtananDersler" ToRole="Dersler" />
+          <NavigationProperty Name="Donemler" Relationship="OnlineDevDbModel.FK_AtananDersler_Donemler" FromRole="AtananDersler" ToRole="Donemler" />
+          <NavigationProperty Name="Ogretmenler" Relationship="OnlineDevDbModel.FK_AtananDersler_Ogretmenler" FromRole="AtananDersler" ToRole="Ogretmenler" />
+        </EntityType>
+        <Association Name="FK_AtananDersler_Dersler">
+          <End Type="OnlineDevDbModel.Dersler" Role="Dersler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.AtananDersler" Role="AtananDersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dersler">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="AtananDersler">
+              <PropertyRef Name="DersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AtananDersler_Donemler">
+          <End Type="OnlineDevDbModel.Donemler" Role="Donemler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.AtananDersler" Role="AtananDersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="AtananDersler">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AtananDersler_Ogretmenler">
+          <End Type="OnlineDevDbModel.Ogretmenler" Role="Ogretmenler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.AtananDersler" Role="AtananDersler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogretmenler">
+              <PropertyRef Name="OgretmenID" />
+            </Principal>
+            <Dependent Role="AtananDersler">
+              <PropertyRef Name="OgretmenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Yoklamalar">
+          <Key>
+            <PropertyRef Name="YoklamaID" />
+          </Key>
+          <Property Name="YoklamaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OgretmenID" Type="Int32" />
+          <Property Name="OgrenciIDListe" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DersID" Type="Int32" />
+          <Property Name="DersGrupID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="DonemID" Type="Int32" />
+          <Property Name="AktifMi" Type="Boolean" />
+          <Property Name="OkulID" Type="Int32" />
+          <Property Name="Sinif" Type="Int32" />
+          <Property Name="Sube" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DersGruplari" Relationship="OnlineDevDbModel.FK_Yoklamalar_DersGruplari" FromRole="Yoklamalar" ToRole="DersGruplari" />
+          <NavigationProperty Name="Dersler" Relationship="OnlineDevDbModel.FK_Yoklamalar_Dersler" FromRole="Yoklamalar" ToRole="Dersler" />
+          <NavigationProperty Name="Donemler" Relationship="OnlineDevDbModel.FK_Yoklamalar_Donemler" FromRole="Yoklamalar" ToRole="Donemler" />
+          <NavigationProperty Name="Ogretmenler" Relationship="OnlineDevDbModel.FK_Yoklamalar_Ogretmenler" FromRole="Yoklamalar" ToRole="Ogretmenler" />
+          <NavigationProperty Name="Okullar" Relationship="OnlineDevDbModel.FK_Yoklamalar_Okullar" FromRole="Yoklamalar" ToRole="Okullar" />
+        </EntityType>
+        <Association Name="FK_Yoklamalar_DersGruplari">
+          <End Type="OnlineDevDbModel.DersGruplari" Role="DersGruplari" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Yoklamalar" Role="Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DersGruplari">
+              <PropertyRef Name="DersGrupID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="DersGrupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Dersler">
+          <End Type="OnlineDevDbModel.Dersler" Role="Dersler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Yoklamalar" Role="Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Dersler">
+              <PropertyRef Name="DersID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="DersID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Donemler">
+          <End Type="OnlineDevDbModel.Donemler" Role="Donemler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Yoklamalar" Role="Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Donemler">
+              <PropertyRef Name="DonemID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="DonemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Ogretmenler">
+          <End Type="OnlineDevDbModel.Ogretmenler" Role="Ogretmenler" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Yoklamalar" Role="Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ogretmenler">
+              <PropertyRef Name="OgretmenID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="OgretmenID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Yoklamalar_Okullar">
+          <End Type="OnlineDevDbModel.Okullar" Role="Okullar" Multiplicity="0..1" />
+          <End Type="OnlineDevDbModel.Yoklamalar" Role="Yoklamalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Okullar">
+              <PropertyRef Name="OkulID" />
+            </Principal>
+            <Dependent Role="Yoklamalar">
+              <PropertyRef Name="OkulID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OnlineDevDbModelStoreContainer" CdmEntityContainer="OnlineDevDbEntities">
+          <EntitySetMapping Name="DersGruplari">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.DersGruplari">
+              <MappingFragment StoreEntitySet="DersGruplari">
+                <ScalarProperty Name="DersGrupID" ColumnName="DersGrupID" />
+                <ScalarProperty Name="DersGrupAdi" ColumnName="DersGrupAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ilceler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.ilceler">
+              <MappingFragment StoreEntitySet="ilceler">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ilceadi" ColumnName="ilceadi" />
+                <ScalarProperty Name="sehirid" ColumnName="sehirid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="iller">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.iller">
+              <MappingFragment StoreEntitySet="iller">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="sehiradi" ColumnName="sehiradi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ogrenciler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Ogrenciler">
+              <MappingFragment StoreEntitySet="Ogrenciler">
+                <ScalarProperty Name="OgrenciID" ColumnName="OgrenciID" />
+                <ScalarProperty Name="OgrenciNo" ColumnName="OgrenciNo" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="Soyadi" ColumnName="Soyadi" />
+                <ScalarProperty Name="Sinif" ColumnName="Sinif" />
+                <ScalarProperty Name="Sube" ColumnName="Sube" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="DonemID" ColumnName="DonemID" />
+                <ScalarProperty Name="SilmeTarihi" ColumnName="SilmeTarihi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Talepler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Talepler">
+              <MappingFragment StoreEntitySet="Talepler">
+                <ScalarProperty Name="TalepID" ColumnName="TalepID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OgretmenLog">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.OgretmenLog">
+              <MappingFragment StoreEntitySet="OgretmenLog">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ExecutionMs" ColumnName="ExecutionMs" />
+                <ScalarProperty Name="OgretmenID" ColumnName="OgretmenID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="OgretmenLogID" ColumnName="OgretmenLogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OkulLog">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.OkulLog">
+              <MappingFragment StoreEntitySet="OkulLog">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ExecutionMs" ColumnName="ExecutionMs" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="OkulLogID" ColumnName="OkulLogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminLog">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.AdminLog">
+              <MappingFragment StoreEntitySet="AdminLog">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ExecutionMs" ColumnName="ExecutionMs" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="AdminLogID" ColumnName="AdminLogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AdminTBL">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.AdminTBL">
+              <MappingFragment StoreEntitySet="AdminTBL">
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Donemler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Donemler">
+              <MappingFragment StoreEntitySet="Donemler">
+                <ScalarProperty Name="Bitis" ColumnName="Bitis" />
+                <ScalarProperty Name="Baslama" ColumnName="Baslama" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="DonemAdi" ColumnName="DonemAdi" />
+                <ScalarProperty Name="DonemID" ColumnName="DonemID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ogretmenler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Ogretmenler">
+              <MappingFragment StoreEntitySet="Ogretmenler">
+                <ScalarProperty Name="DonemID" ColumnName="DonemID" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="OgretmenID" ColumnName="OgretmenID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Okullar">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Okullar">
+              <MappingFragment StoreEntitySet="Okullar">
+                <ScalarProperty Name="OgrenciListeYuklediMi" ColumnName="OgrenciListeYuklediMi" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="BitisTarihi" ColumnName="BitisTarihi" />
+                <ScalarProperty Name="BaslangicTarihi" ColumnName="BaslangicTarihi" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="ilceID" ColumnName="ilceID" />
+                <ScalarProperty Name="ilID" ColumnName="ilID" />
+                <ScalarProperty Name="YetkiliEmail" ColumnName="YetkiliEmail" />
+                <ScalarProperty Name="YetkiliTel" ColumnName="YetkiliTel" />
+                <ScalarProperty Name="YetkiliAdSoyad" ColumnName="YetkiliAdSoyad" />
+                <ScalarProperty Name="Adi" ColumnName="Adi" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Dersler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Dersler">
+              <MappingFragment StoreEntitySet="Dersler">
+                <ScalarProperty Name="SinifDuzey" ColumnName="SinifDuzey" />
+                <ScalarProperty Name="DonemID" ColumnName="DonemID" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+                <ScalarProperty Name="DersAdi" ColumnName="DersAdi" />
+                <ScalarProperty Name="DersID" ColumnName="DersID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AtananDersler">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.AtananDersler">
+              <MappingFragment StoreEntitySet="AtananDersler">
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="DonemID" ColumnName="DonemID" />
+                <ScalarProperty Name="Sube" ColumnName="Sube" />
+                <ScalarProperty Name="Sinif" ColumnName="Sinif" />
+                <ScalarProperty Name="DersID" ColumnName="DersID" />
+                <ScalarProperty Name="OgretmenID" ColumnName="OgretmenID" />
+                <ScalarProperty Name="AtananDersID" ColumnName="AtananDersID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yoklamalar">
+            <EntityTypeMapping TypeName="OnlineDevDbModel.Yoklamalar">
+              <MappingFragment StoreEntitySet="Yoklamalar">
+                <ScalarProperty Name="Sube" ColumnName="Sube" />
+                <ScalarProperty Name="Sinif" ColumnName="Sinif" />
+                <ScalarProperty Name="OkulID" ColumnName="OkulID" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="DonemID" ColumnName="DonemID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="DersGrupID" ColumnName="DersGrupID" />
+                <ScalarProperty Name="DersID" ColumnName="DersID" />
+                <ScalarProperty Name="OgrenciIDListe" ColumnName="OgrenciIDListe" />
+                <ScalarProperty Name="OgretmenID" ColumnName="OgretmenID" />
+                <ScalarProperty Name="YoklamaID" ColumnName="YoklamaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

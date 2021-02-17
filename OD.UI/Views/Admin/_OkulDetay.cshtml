@@ -1,0 +1,127 @@
+﻿@model OD.Model.Okullar
+@using OD.UI.Utils
+@{Fonksiyon f = new Fonksiyon();}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-muted">Okul Adı : </label>
+                    <div class="col-md-12">
+                        @Model.Adi
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-muted">Yetkili Adı Soyadı : </label>
+                    <div class="col-md-12">
+                        @Model.YetkiliAdSoyad
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-muted">Yetkili Email : </label>
+                    <div class="col-md-12">
+                        @Model.YetkiliEmail
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-muted">Yetkili Telefon : </label>
+                    <div class="col-md-12 text-body">
+                        @Model.YetkiliTel
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Kullanıcı Adı : </label>
+                    <div class="col-md-12">
+                        @f.Decrypt(Model.KullaniciAdi)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Şifre : </label>
+                    <div class="col-md-12">
+                        @f.Decrypt(Model.Sifre)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">İl : </label>
+                    <div class="col-md-12">
+                        @Model.iller.sehiradi
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">İlçe : </label>
+                    <div class="col-md-12">
+                        @Model.ilceler.ilceadi
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Aktif Mi? : </label>
+                    <div class="col-md-12">
+                        @if (Model.AktifMi == true)
+                        {
+                            <span class="label label-success inline-block">EVET</span>
+                        }
+                        else
+                        {
+                            <label class="alert alert-danger small">HAYIR</label>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Kayıt Tarihi : </label>
+                    <div class="col-md-12">
+                        @Model.KayitTarihi
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Başlangıç Tarihi : </label>
+                    <div class="col-md-12">
+                        @Model.BaslangicTarihi
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Bitiş Tarihi : </label>
+                    <div class="col-md-12">
+                        @Model.BitisTarihi
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

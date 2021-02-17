@@ -1,0 +1,188 @@
+﻿@model List<OD.Model.Talepler>
+@{
+    ViewBag.Title = "AktifTalepler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <!-- Table Hover -->
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Aktif Talep Listesi</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>İl</th>
+                                        <th>İlçe</th>
+                                        <th>Okul Adı</th>
+                                        <th>Tarih</th>
+                                        <th>Açıklama</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="9" class="text-muted text-center text-danger">Aktif Talep Listesi Bulunamadı.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.TalepID</td>
+                                                <td>@item.Okullar.iller.sehiradi</td>
+                                                <td>@item.Okullar.ilceler.ilceadi</td>
+                                                <td>@item.Okullar.Adi</td>
+                                                <td>@Convert.ToDateTime(item.Tarih).Date.ToLongDateString()</td>
+                                                <td>@item.Aciklama</td>
+                                                <td><a href="#" class="btn btn-info btn-sm" id="islemler" data-id="@item.TalepID">İşlemler</a></td>
+                                                <td></td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-fadein" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Aktif Talep İşlemleri</h4>
+            </div>
+            <div class="modal-body" id="TalepislemYap">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script type="text/javascript">
+        $(document).on("click", "#islemler", function () {
+            var id = $(this).data("id");
+            var url = "/Admin/_Talepislem/" + id;
+
+            $("#TalepislemYap").load(url, function () {
+                $("#modal-fadein").modal("show");
+            });
+        })
+
+        //$(document).on("click", "#KullaniciProfil", function () {
+        //    var id = $(this).data("id");
+        //    var url = "/Home/KullaniciProfil/" + id;
+        //    window.location.href = url;
+        //})
+
+
+
+        @* document.querySelector('#SaveKonuCevap').addEventListener('click', SaveKonuCevap);
+        function SaveKonuCevap() {
+            var data = $("#example-textarea-input").val();
+            var konuid =@Html.Raw(KonuID);
+            if (@Html.Raw(OgretmenID) == 0) {
+                //toastr.error("Yorum yapabilmek için sisteme giriş yapmanız gerekmektedir.", "Hata");
+                bootbox.confirm({
+                    message: "Cevap yapabilmek için sisteme giriş yapmanız gerekmektedir.",
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> Kapat',
+                            className: 'btn-primary'
+                        },
+                        confirm: {
+                            label: '<i class="fa fa-check"></i> Giriş Yapmak için Git',
+                            className: 'btn-success'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            window.location.href = "/Home/UserLogin";
+                        }
+                    }
+                });
+            }
+            else {
+                if (data == null || data == "") {
+                    toastr.error("Cevap alanı boş bırakılamaz. Lütfen yorumunuzu yazınız.", "Hata");
+                }
+                else {
+                    ogretmenid =@Html.Raw(OgretmenID);
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Home/AddKonuCevap',
+                        data: { 'konuid': konuid, 'ogretmenid': ogretmenid, 'cevap': data },
+                        success: function (response) {
+                            if (response.IsSuccess == true) {
+                                window.location.href = "/Home/KonuDetay/" + konuid;
+                            }
+                            else {
+                                toastr.error(response.UserMessage, "Hata");
+                            }
+                        }
+
+                    })
+                }
+            }
+        };*@
+
+        @* $(document).on("click", "#CevapSil", function () {
+            bootbox.confirm({
+                message: "Cevabınızı silmek istediğinizden emin misiniz?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Hayır',
+                        className: 'btn-success'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Evet',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        var id = $("#CevapSil").data("id");
+                        var konuid =@Html.Raw(KonuID);
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Home/CevapSil',
+                            data: { 'id': id },
+                            success: function (response) {
+                                if (response.IsSuccess == true) {
+                                    window.location.href = "/Home/KonuDetay/" + konuid;
+                                }
+                                else {
+                                    toastr.error(response.UserMessage, "Hata");
+                                }
+                            }
+                        })
+                    }
+                }
+            });
+        }) *@
+
+    </script>
+
+}

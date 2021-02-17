@@ -1,0 +1,67 @@
+﻿@model List<OD.Model.Okullar>
+@{
+    ViewBag.Title = "OkulListesi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table id="datable_1" class="table table-hover display  pb-30">
+                                <thead>
+                                    <tr>
+                                        <th>Okul ID</th>
+                                        <th>Adı</th>
+                                        <th>Yetkili Ad Soyad</th>
+                                        <th>Yetkili E-Mail</th>
+                                        <th>Yetkili Telefon</th>
+                                        <th>İl</th>
+                                        <th>İlçe</th>
+                                        <th>Aktif Mi?</th>
+                                        <th>Kayıt Tarihi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.OkulID</td>
+                                            <td>@item.Adi</td>
+                                            <td>@item.YetkiliAdSoyad</td>
+                                            <td>@item.YetkiliEmail</td>
+                                            <td>@item.YetkiliTel</td>
+                                            <td>@item.iller.sehiradi</td>
+                                            <td>@item.ilceler.ilceadi</td>
+                                            <td class="text-center">
+                                                @if (item.AktifMi == true)
+                                                {
+                                                    <i class="fa fa-check fa-4 text-success"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fa fa-times fa-4 text-danger"></i>
+                                                }
+                                            </td>
+                                            <td>@item.KayitTarihi</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script src="~/Scripts/DataTable_Turkish.js"></script>
+}
+

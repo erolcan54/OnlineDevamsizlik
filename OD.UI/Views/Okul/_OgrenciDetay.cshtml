@@ -1,0 +1,104 @@
+﻿@model OD.Model.Ogrenciler
+@using OD.UI.Utils
+@{
+    Fonksiyon f = new Fonksiyon();
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-muted">Adı : </label>
+                    <div class="col-md-12 text-black-50">
+                        @Model.Adi
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="text-muted">Soyadı : </label>
+                    <div class="col-md-12">
+                        @Model.Soyadi
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="text-muted">Aktif Mi? : </label>
+                            <div class="col-md-12">
+                                @if (Model.AktifMi == true)
+                                {
+                                    <span class="label label-success inline-block">EVET</span>
+                                }
+                                else
+                                {
+                                    <label class="alert alert-danger small">HAYIR</label>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-muted">Dönem : </label>
+                    <div class="col-md-12">
+                        @Model.Donemler.DonemAdi
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-muted">Sınıf : </label>
+                    <div class="col-md-12">
+                        @Model.Sinif
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="text-muted">Şube : </label>
+                    <div class="col-md-12">
+                        @Model.Sube
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Kayıt Tarihi : </label>
+                    <div class="col-md-12">
+                        @Convert.ToDateTime(Model.KayitTarihi).ToLongDateString()
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-muted">Güncelleme Tarihi : </label>
+                    <div class="col-md-12">
+                        @if (String.IsNullOrEmpty(Model.GuncellemeTarihi.ToString()))
+                        {
+                            <span>-</span>
+                        }
+                        else
+                        {
+                            @Convert.ToDateTime(Model.GuncellemeTarihi).ToLongDateString()
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

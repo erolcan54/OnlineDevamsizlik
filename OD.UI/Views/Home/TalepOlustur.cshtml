@@ -1,0 +1,291 @@
+﻿@model OD.UI.ViewModel.ililceListeView
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Online Devamsızlık</title>
+    <link href="~/AnasayfaAssets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand active" href="#">Online Devamsızlık</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link" href="~/Home/Index">Anasayfa <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Home/TalepOlustur">Talep Oluştur</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/OkulGirisi">Okul Girişi</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dosyalar
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="~/SablonListe/ogrencilistesablon.xlsx">Öğrenci Listesi Şablon</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header bg-primary text-white">Online Devamsızlık Modülü Kullanma Talebi Oluştur</div>
+                    <div class="panel-body mx-2 my-4">
+                        @using (Ajax.BeginForm("TalepOlustur", "Home", new AjaxOptions { OnSuccess = "TalepOlusturSuccess", HttpMethod = "POST" }))
+                        {
+                            <div class="form-group">
+                                <label>Okul Adı : </label>
+                                <input type="text" class="form-control" placeholder="Okul Adı" name="Adi" required=required />
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Yetkili Adı ve Soyadı : </label>
+                                        <input type="text" class="form-control" placeholder="Yetkili Adı ve Soyadı" name="YetkiliAdSoyad" required=required />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Yetkili Telefon : </label>
+                                        <input type="number" class="form-control" placeholder="Yetkili Telefon" name="YetkiliTel" required=required />
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Yetkili E-Posta Adresi : </label>
+                                        <input type="email" class="form-control" placeholder="Yetkili E-Posta" name="YetkiliEmail" required=required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>İl Seçiniz : </label>
+                                        @Html.DropDownListFor(m => m.ilID, new SelectList(Model.ilListe, "Value", "Text"), "İl Seçiniz", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>İlçe Seçiniz : </label>
+                                        @Html.DropDownListFor(m => m.ilceID, new SelectList(Model.ilceListe, "Value", "Text"), htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Kullanıcı Adı Belirleyiniz : </label>
+                                        <input type="text" class="form-control" placeholder="Kullanıcı Adınız" name="KullaniciAdi" required=required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Şifre Belirleyiniz : </label>
+                                        <input type="password" class="form-control" placeholder="Şifreniz" name="Sifre" required=required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Okul Adresi : </label>
+                                <textarea class="form-control" placeholder="Okul Adresi" name="Adres" required=required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Açıklama : </label>
+                                <textarea class="form-control" placeholder="İsterseniz açıklama veya not yazabilirsiniz" name="Aciklama" required=required></textarea>
+                            </div>
+                            <div class="form-group text-center">
+                                <img src="@Url.Action("CaptchaImageOlustur", "Home")" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control text-center" name="GuvenlikKodu" id="GuvenlikKodu" placeholder="Güvenlik Kodunu Yazınız" required=required />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary col-md-12">Talep Oluştur</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-6">
+                    <div class="card ">
+                        <div class="card-header ">Okul Yönetim Giriş Paneli</div>
+                        <div class="panel-body mx-2 my-4">
+                            <form action="">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Kullanıcı Adı" name="kullaniciadi">
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" placeholder="Şifre" name="sifre">
+                                </div>
+                                <button type="submit" class="btn btn-outline-success">Giriş Yap</button>
+                                <a href="#" class="float-right">Şifremi Unuttum!</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Üye Giriş Paneli</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Kullanıcı Adı veya E-Mail :</label>
+                            <input type="text" class="form-control" id="kullaniciadi" />
+                        </div>
+                        <div class="form-group">
+                            <label for="message-text" class="control-label">Şifre :</label>
+                            <input type="text" class="form-control" id="sifre" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-primary">Giriş Yap</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/AnasayfaAssets/js/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="~/AnasayfaAssets/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        $("#ilID").change(function () {
+            var id = $(this).val();
+            var ilceListe = $("#ilceID");
+            ilceListe.empty();
+            $.ajax({
+                url: '../Home/ilceListeGetir/',
+                type: 'POST',
+                dataType: 'json',
+                data: { 'id': id },
+                success: function (data) {
+                    $.each(data, function (index, option) {
+                        ilceListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+
+                    });
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+
+        function TalepOlusturSuccess(result) {
+            if (result.IsSuccess == true) {
+
+                //bootbox.confirm({
+                //    message: result.UserMessage,
+                //    buttons: {
+                //        confirm: {
+                //            label: 'Tamam',
+                //            className: 'btn-success'
+                //        },
+                //    },
+                //    callback: function (data) {
+                //        if (data == true) {
+                //            window.location.href = "../Home/Index";
+                //        }
+                //    }
+                //});
+
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    //size: 'large',
+                    buttons: {
+                        //cancel: {
+                        //    label: "I'm a cancel button!",
+                        //    className: 'btn-danger',
+                        //    callback: function () {
+                        //        console.log('Custom cancel clicked');
+                        //    }
+                        //},
+                        //noclose: {
+                        //    label: "I don't close the modal!",
+                        //    className: 'btn-warning',
+                        //    callback: function () {
+                        //        console.log('Custom button clicked');
+                        //        return false;
+                        //    }
+                        //},
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-success',
+                            callback: function () {
+                                window.location.href = "../Home/Index";
+                            }
+                        }
+                    }
+                });
+                
+            }
+            else {
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    //size: 'large',
+                    buttons: {
+                        //cancel: {
+                        //    label: "I'm a cancel button!",
+                        //    className: 'btn-danger',
+                        //    callback: function () {
+                        //        console.log('Custom cancel clicked');
+                        //    }
+                        //},
+                        //noclose: {
+                        //    label: "I don't close the modal!",
+                        //    className: 'btn-warning',
+                        //    callback: function () {
+                        //        console.log('Custom button clicked');
+                        //        return false;
+                        //    }
+                        //},
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                                //console.log('Custom OK clicked');
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+</html>
+
+

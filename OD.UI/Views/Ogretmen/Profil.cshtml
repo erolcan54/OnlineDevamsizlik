@@ -1,0 +1,74 @@
+﻿@model OD.Model.Ogretmenler
+@using OD.UI.Utils
+@{
+    Fonksiyon f = new Fonksiyon();
+    Layout = "~/Views/Shared/_OgretmenLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Öğretmen Bilgileri</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body task-panel">
+                    <div class="list-group mb-0">
+                        <a href="#" class="list-group-item">
+                            <span class="pull-right">@Model.AdSoyad</span>
+                            Ad Soyad :
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="pull-right">@f.Decrypt(Model.KullaniciAdi)</span>
+                            Kullanıcı Adı :
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="pull-right">@Convert.ToDateTime(Model.KayitTarihi).ToLongDateString()</span>
+                            Kayıt Tarihi :
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="pull-right">@Model.Donemler.DonemAdi</span>
+                            Dönem :
+                        </a>
+                        <a href="#" class="list-group-item">
+                            <span class="pull-right">@Model.Okullar.Adi</span>
+                            Okul Adı :
+                        </a>
+                        <div class="mt-20">
+                            <a href="#" id="guncelle" class="btn btn-success">Bilgilerimi Güncelle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="guncelle-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Güncelle</h4>
+            </div>
+            <div class="modal-body" id="OgretmenGuncelle">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).on("click", "#guncelle", function () {
+            var url = "/Ogretmen/_OgretmenBilgileri";
+
+            $("#OgretmenGuncelle").load(url, function () {
+                $("#guncelle-modal").modal("show");
+            })
+        });
+    </script>
+    } 

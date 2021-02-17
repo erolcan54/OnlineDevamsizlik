@@ -1,0 +1,48 @@
+﻿@model List<OD.Model.OgretmenLog>
+@{
+    ViewBag.Title = "OgretmenLog";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <header class="widget-header">
+                    <h4 class="widget-title">Öğretmen Log Listesi</h4>
+                </header><!-- .widget-header -->
+                <hr class="widget-separator">
+                <div class="widget-body">
+                    <div class="table-responsive">
+                        <table id="default-datatable" data-plugin="DataTable" class="table table-striped" cellspacing="0" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>Log ID</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Action Name</th>
+                                    <th>Controller Name</th>
+                                    <th>Execution MS</th>
+                                    <th>IP Adress</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.OgretmenLogID</td>
+                                        <th>@item.Ogretmenler.AdSoyad</th>
+                                        <td>@item.ActionName</td>
+                                        <td>@item.ControllerName</td>
+                                        <td>@item.ExecutionMs</td>
+                                        <td>@item.IPAddress</td>
+                                        <td>@item.Date</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

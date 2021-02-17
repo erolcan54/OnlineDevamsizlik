@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="40154c66ee244d25a8b7d3b82a0f85a8" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="OnlineDevDbModel.DersGruplari" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.ilceler" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.iller" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Ogrenciler" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Talepler" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="true" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_ilceler_iller" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.OgretmenLog" Width="1.5" PointX="12.75" PointY="4.375" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.OkulLog" Width="1.5" PointX="9.5" PointY="6.75" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.AdminLog" Width="1.5" PointX="14.625" PointY="1" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.AdminTBL" Width="1.5" PointX="12.375" PointY="1.5" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_AdminLog_AdminTBL" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Donemler" Width="1.5" PointX="2.5" PointY="7.25" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Ogretmenler" Width="1.5" PointX="15.25" PointY="8.375" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Ogrenciler_Donemler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Ogretmenler_Donemler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_OgretmenLog_Ogretmenler" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Okullar" Width="1.5" PointX="8.875" PointY="0.875" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Okullar_ilceler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Okullar_iller" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Ogrenciler_Okullar" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Ogretmenler_Okullar" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_OkulLog_Okullar" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Talepler_Okullar" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Dersler" Width="1.5" PointX="12.125" PointY="8.125" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Dersler_Donemler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Dersler_Okullar" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.AtananDersler" Width="1.5" PointX="17.5" PointY="8.125" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_AtananDersler_Dersler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_AtananDersler_Donemler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_AtananDersler_Ogretmenler" />
+        <EntityTypeShape EntityType="OnlineDevDbModel.Yoklamalar" Width="1.5" PointX="17.5" PointY="3.25" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Yoklamalar_DersGruplari" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Yoklamalar_Dersler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Yoklamalar_Donemler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Yoklamalar_Ogretmenler" />
+        <AssociationConnector Association="OnlineDevDbModel.FK_Yoklamalar_Okullar" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,75 @@
+﻿@model OD.UI.ViewModel.SinifDersOgrenciListView
+@using (Html.BeginForm("YoklamaAl","Ogretmen"))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Sınıf Seçiniz</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => Model.Sinif, new SelectList(Model.SinifGrup, "Value", "Text"), "Sınıf Seçiniz", htmlAttributes: new { @class = "form-control", @tabindex = "-1" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Şube Seçiniz</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => Model.Sube, Model.SubeGrup, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Ders Seçiniz</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => Model.DersID, Model.DersListe, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Ders Saati Seçiniz</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(m => Model.DersGrupID, (IEnumerable<SelectListItem>)ViewData["DersSaatleri"], "Ders Saati Seçiniz", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <input type="submit" value="Listele" class="btn btn-success col-md-12" />
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+
+    $("#Sinif").change(function () {
+        var id = $(this).val();
+        var SubeListe = $("#Sube");
+        SubeListe.empty();
+        $.ajax({
+            url: '/Ogretmen/SinifSubeFiltre/',
+            type: 'POST',
+            dataType: 'json',
+            data: { 'id': id },
+            success: function (data) {
+                SubeListe.append('<option value=0>Şube Seçiniz</option>');
+                $.each(data, function (index, option) {
+                    SubeListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                });
+            }
+        });
+    });
+
+    $("#Sube").change(function () {
+        var sube = $(this).val();
+        var sinif = $("#Sinif").val();
+        var DersListe = $("#DersID");
+        DersListe.empty();
+        $.ajax({
+            url: '/Ogretmen/SinifDersFiltre/',
+            type: 'POST',
+            dataType: 'json',
+            data: { 'sinif': sinif, 'sube': sube },
+            success: function (data) {
+                DersListe.append('<option value=0>Ders Seçiniz</option>');
+                $.each(data, function (index, option) {
+                    DersListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                });
+            }
+        });
+    });
+</script>

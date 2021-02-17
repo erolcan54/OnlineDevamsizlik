@@ -1,0 +1,153 @@
+﻿@model OD.UI.ViewModel.SinifSubeDersGrupView
+@{
+    Layout = "~/Views/Shared/_OkulLayout.cshtml";
+    List<OD.Model.Ogretmenler> ogrliste = ViewData["OgretmenListe"] as List<OD.Model.Ogretmenler>;
+    List<OD.Model.Dersler> dersliste = ViewData["DersListe"] as List<OD.Model.Dersler>;
+}
+
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    @if (ogrliste.Count == 0)
+                    {
+                        <div class="row text-center">
+                            <label class="text-danger"><strong>Veritabanında kayıtlı ders atama bilgisi bulunamadı.</strong></label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-wrap">
+                            <div class="table-responsive">
+                                <table id="datable_1" class="table table-hover display  pb-30">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Ad Soyad</th>
+                                            <th>Atanan Dersler</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ogrliste)
+                                        {
+                                            <tr>
+                                                <td>@item.OgretmenID</td>
+                                                <td>@item.AdSoyad.ToUpper()</td>
+                                                <td>@{
+                                                    OD.Bll.Concrete.OgretmenRepository ogrrepo = new OD.Bll.Concrete.OgretmenRepository();
+                                                    OD.Model.Ogretmenler ogr = ogrrepo.Get(Convert.ToInt32(item.OgretmenID));
+                                                    @Html.Partial("_AtananDerslerView", ogr);
+                                                }</td>
+                                                <td>
+                                                    <a href="#" class="btn btn-success" id="ogretmendersata" data-id="@item.OgretmenID" data-toggle="tooltip" data-placement="top" title="@item.AdSoyad">Ders Ataması Yap</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="detay-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Öğretmene Ders Ata</h4>
+            </div>
+            <div class="modal-body" id="OgretmenDersAta">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+
+        //$("#Sinif").change(function () {
+        //    var id = $(this).val();
+        //    var SubeListe = $("#Sube");
+        //    SubeListe.empty();
+        //    $.ajax({
+        //        url: '/Okul/SinifSubeFiltre/',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        data: { 'id': id },
+        //        success: function (data) {
+        //            SubeListe.append('<option value=0>Şube Seçiniz</option>');
+        //            $.each(data, function (index, option) {
+        //                SubeListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+        //            });
+        //        }
+        //    });
+        //});
+
+        //$("#Sinif").change(function () {
+        //    var id = $(this).val();
+        //    var DersListe = $("#DersID");
+        //    DersListe.empty();
+        //    $.ajax({
+        //        url: '/Okul/SinifDersFiltre/',
+        //        type: 'POST',
+        //        dataType: 'json',
+        //        data: { 'id': id },
+        //        success: function (data) {
+        //            DersListe.append('<option value=0>Ders Seçiniz</option>');
+        //            $.each(data, function (index, option) {
+        //                DersListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+        //            });
+        //        }
+        //    });
+        //});
+
+        function Success(result) {
+            if (result.IsSuccess == true) {
+
+                var dialog = bootbox.dialog({
+                    title: 'TEBRİKLER',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-success',
+                            callback: function () {
+                                window.location.href = '/Okul/DersAtamalari';
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+        };
+
+        $(document).on("click", "#ogretmendersata", function () {
+            var id = $(this).data("id");
+            var url = "/Okul/_OgretmenDersAta/" + id;
+
+            $("#OgretmenDersAta").load(url, function () {
+                $("#detay-modal").modal("show");
+            })
+        });
+    </script>
+}

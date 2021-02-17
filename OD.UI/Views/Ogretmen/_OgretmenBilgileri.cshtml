@@ -1,0 +1,63 @@
+﻿@model OD.Model.Ogretmenler
+@using OD.UI.Utils
+@{ 
+    Fonksiyon f = new Fonksiyon();
+}
+
+@using (Ajax.BeginForm("OgretmenGuncelle", "Ogretmen", new AjaxOptions { OnSuccess = "GuncelleSonuc", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(m => m.OgretmenID)
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Ad Soyad</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="AdSoyad" id="adsoyad" type="text" value="@Model.AdSoyad" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Kullanıcı Adı</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="KullaniciAdi" id="kullaniciadi" type="text" value="@f.Decrypt(Model.KullaniciAdi)" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Şifre</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="Sifre" id="sifre" type="password" value="@f.Decrypt(Model.Sifre)" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3 control-label">Dönem Adı</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="Donem" id="donem" type="text" value="@Model.Donemler.DonemAdi" disabled>
+        </div>
+    </div>
+    <div class="form-group mb-0">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-success">Güncelle</button>
+        </div>
+    </div>
+}
+<script>
+    function GuncelleSonuc(res) {
+        if (res.IsSuccess == true) {
+            //$("#modal-fadein").modal("hide");
+            //var dialog = bootbox.dialog({
+            //    title: 'SİSTEM MESAJI!',
+            //    message: "<p>" + res.UserMessage + "</p>",
+            //    buttons: {
+            //        ok: {
+            //            label: "Tamam",
+            //            className: 'btn-success',
+            //            callback: function () {
+            //                window.location.href = '/Okul/Dersler';
+            //            }
+            //        }
+            //    }
+            //});
+            window.location.href = '/Ogretmen/Profil';
+        }
+        else {
+            toastr.error(res.UserMessage);
+        }
+    }
+</script>

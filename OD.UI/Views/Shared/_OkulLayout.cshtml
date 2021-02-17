@@ -1,0 +1,205 @@
+﻿
+@{
+    int OkulID = Convert.ToInt32(Session["OkulID"]);
+    OD.Bll.Concrete.OkulRepository okulrepo = new OD.Bll.Concrete.OkulRepository();
+    OD.Model.Okullar okul = okulrepo.Get(OkulID);
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="Kenny is a Dashboard & Admin Site Responsive Template by hencework." />
+    <meta name="keywords" content="admin, admin dashboard, admin template, cms, crm, Kenny Admin, kennyadmin, premium admin templates, responsive admin, sass, panel, software, ui, visualization, web app, application" />
+    <meta name="author" content="hencework" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://www.datatables.net/rss.xml">
+    <!-- Data table CSS -->
+    <link href="~/vendors/bower_components/datatables/media/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/dist/css/style.css" rel="stylesheet" />
+    <link href="~/Content/toastr.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!--Preloader-->
+    <div class="preloader-it">
+        <div class="la-anim-1"></div>
+    </div>
+    <!--/Preloader-->
+    <div class="wrapper">
+
+        <!-- Top Menu Items -->
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <a id="toggle_nav_btn" class="toggle-left-nav-btn inline-block mr-20 pull-left" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
+            <a href="@Url.Action("Index","Okul")"><label class="brand-img pull-left"><strong>Online Devamsızlık</strong></label></a>
+            <ul class="nav navbar-right top-nav pull-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown"><img src="~/dist/img/user1.png" alt="user_auth" class="user-auth-img img-circle" /><span class="user-online-status"></span></a>
+                    <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                        <li>
+                            <a href="@Url.Action("Profil","Okul")"><i class="fa fa-fw fa-user"></i> Profil</a>
+                        </li>
+                        @*<li>
+                                <a href="#"><i class="fa fa-fw fa-credit-card-alt"></i> my balance</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                            </li>*@
+                        <li class="divider"></li>
+                        <li>
+                            <a href="@Url.Action("CikisYap","Okul")"><i class="fa fa-fw fa-power-off"></i> Çıkış Yap</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="collapse navbar-search-overlap" id="site_navbar_search">
+                <form role="search">
+                    <div class="form-group mb-0">
+                        <div class="input-search">
+                            <div class="input-group">
+                                <input type="text" id="overlay_search" name="overlay-search" class="form-control pl-30" placeholder="Search">
+                                <span class="input-group-addon pr-30">
+                                    <a href="javascript:void(0)" class="close-input-overlay" data-target="#site_navbar_search" data-toggle="collapse" aria-label="Close" aria-expanded="true"><i class="fa fa-times"></i></a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <!-- /Top Menu Items -->
+        <!-- Left Sidebar Menu -->
+        <div class="fixed-sidebar-left">
+            <ul class="nav navbar-nav side-nav nicescroll-bar">
+                <li>
+                    <a href="@Url.Action("Index","Okul")"><i class="fa fa-home mr-10"></i>Anasayfa</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><i class="icon-picture mr-10"></i>Yoklamalar <span class="pull-right"><i class="fa fa-fw fa-angle-down"></i></span></a>
+                    <ul id="dashboard_dr" class="collapse collapse-level-1">
+                        <li>
+                            <a href="@Url.Action("BugunYoklama","Okul")">Bugün</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("FiltreYoklama","Okul")">Filtre Uygula</a>
+                        </li>
+                        @*<li>
+                            <a href="@Url.Action("EskiDonemYoklama","Okul")">Önceki Dönem Yoklamalar</a>
+                        </li>*@
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Dersler","Okul")"><i class="fa fa-spotify mr-10"></i>Dersler</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Ogretmenler","Okul")"><i class="fa fa-spotify mr-10"></i>Öğretmenler</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("DersAtamalari","Okul")"><i class="fa fa-spotify mr-10"></i>Ders Atamaları</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Ogrenciler","Okul")"><i class="fa fa-spotify mr-10"></i>Öğrenciler</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("IBESayfa","Ogretmen")"><i class="fa fa-angle-down mr-10"></i>İşletmelerde Beceri Eğitimi</a>
+                </li>
+                <li class="bg-danger">
+                    <a href="@Url.Action("CikisYap","Okul")"><i class="fa fa-times mr-10"></i>Çıkış Yap</a>
+                </li>
+                @*<li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#log"><i class="icon-picture mr-10"></i>Loglar <span class="pull-right"><i class="fa fa-fw fa-angle-down"></i></span></a>
+                        <ul id="log" class="collapse collapse-level-1">
+                            <li>
+                                <a href="@Url.Action("AdminLog","Admin")">Admin Log</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("OkulLog","Admin")">Okul Log</a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("OgretmenLog","Admin")">Öğretmen Log</a>
+                            </li>
+                        </ul>
+                    </li>*@
+            </ul>
+        </div>
+        <!-- /Left Sidebar Menu -->
+        <!-- Right Sidebar Menu -->
+        
+        <!-- /Right Sidebar Menu -->
+        <!-- Main Content -->
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <!-- Title -->
+                <div class="row heading-bg bg-green">
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                        <h6 class="txt-light">@okul.Adi</h6>
+                    </div>
+
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h6 class="txt-light pull-right hidden-md hidden-sm hidden-xs">Hesap Durumu : @(okul.AktifMi==true?"Aktif":"Pasif")</h6>
+                    </div>
+                </div>
+                <!-- /Title -->
+                <!-- Row -->
+                @RenderBody()
+                <!-- /Row -->
+            </div>
+
+        </div>
+        <!-- /Main Content -->
+
+    </div>
+    <!-- /#wrapper -->
+    <!-- JavaScript -->
+    <!-- jQuery -->
+    <script src="~/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Ajax JS-->
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+    <!-- Knocout js -->
+    <script src="~/Scripts/knockout-3.5.1.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/vendors/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js"></script>
+
+    <!-- Data table JavaScript -->
+    <script src="~/vendors/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="~/dist/js/dataTables-data.js"></script>
+    <script src="~/vendors/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/vendors/bower_components/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/vendors/bower_components/jszip/dist/jszip.min.js"></script>
+    <script src="~/vendors/bower_components/pdfmake/build/pdfmake.min.js"></script>
+    <script src="~/vendors/bower_components/pdfmake/build/vfs_fonts.js"></script>
+
+    <script src="~/vendors/bower_components/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/vendors/bower_components/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/dist/js/export-table-data.js"></script>
+
+    <!-- Slimscroll JavaScript -->
+    <script src="~/dist/js/jquery.slimscroll.js"></script>
+
+    <!-- Fancy Dropdown JS -->
+    <script src="~/dist/js/dropdown-bootstrap-extended.js"></script>
+    <!-- Init JavaScript -->
+    <script src="~/dist/js/init.js"></script>
+
+
+    <!-- Toastr and Bootbox -->
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/toastrcustom.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>
+

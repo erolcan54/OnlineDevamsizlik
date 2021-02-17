@@ -1,0 +1,99 @@
+﻿@model OD.Model.Ogrenciler
+@using OD.UI.Utils
+@{
+    Fonksiyon f = new Fonksiyon();
+}
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            @*<div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Öğretmen Ekle</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>*@
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-wrap">
+
+                                @using (Ajax.BeginForm("OgrenciGuncelle", "Okul", new AjaxOptions { OnSuccess = "OgrenciGuncelleSonuc", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+                                {
+                                    @Html.HiddenFor(m=>m.OgrenciID)
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Öğrenci Adı</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" name="Adi" id="adi" type="text" value="@Model.Adi" placeholder="Öğrenci Adını Yazınız" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Öğrenci Soyadı</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" name="Soyadi" id="soyadi" type="text" value="@Model.Soyadi" placeholder="Öğrenci Soyadını Yazınız" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Öğrenci No</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" name="OgrenciNo" id="ogrencino" type="text" value="@Model.OgrenciNo" placeholder="Öğrenci Numarasını Yazınız" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Sınıf</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" name="Sinif" id="sinif" type="number" value="@Model.Sinif" placeholder="Öğrenci Sınıf Düzeyini Yazınız." required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Şube</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" name="Sube" id="sube" type="text" value="@Model.Sube" placeholder="Öğrenci Şubesini Yazınız" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-0">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-success">Güncelle</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .widget-body -->
+            </div>
+
+        </div><!-- .widget -->
+    </div><!-- END column -->
+</div><!-- .row -->
+
+<script>
+    function OgrenciGuncelleSonuc(res) {
+        if (res.IsSuccess == true) {
+            //$("#modal-fadein").modal("hide");
+            //var dialog = bootbox.dialog({
+            //    title: 'SİSTEM MESAJI!',
+            //    message: "<p>" + res.UserMessage + "</p>",
+            //    buttons: {
+            //        ok: {
+            //            label: "Tamam",
+            //            className: 'btn-success',
+            //            callback: function () {
+            //                window.location.href = '/Okul/Dersler';
+            //            }
+            //        }
+            //    }
+            //});
+            window.location.href = '/Okul/Ogrenciler';
+        }
+        else {
+            toastr.error(res.UserMessage);
+        }
+    }
+</script>

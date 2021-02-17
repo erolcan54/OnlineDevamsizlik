@@ -1,0 +1,126 @@
+﻿@model OD.UI.ViewModel.YoklamaGuncellemeViewModel
+@using OD.UI.Utils;
+@using OD.Bll.Concrete;
+@{
+    Layout = "~/Views/Shared/_OkulLayout.cshtml";
+    Fonksiyon f = new Fonksiyon();
+    YoklamaRepository yoklamarepo = new YoklamaRepository();
+    OD.Model.Yoklamalar y = yoklamarepo.Get(Model.YoklamaID);
+    if (y != null)
+    {
+        ViewBag.Title = y.Sinif + "/" + y.Sube + " ŞUBESİ "+y.DersGruplari.DersGrupAdi + " SAATİ "+y.Dersler.DersAdi+" DERSİ [ "+y.Ogretmenler.AdSoyad+" ] YOKLAMA TABLOSU";
+    }
+    else
+    {
+        ViewBag.Title = "İşlem Başarısız";
+    }
+}
+@if (Model.islemTamam == true || y != null)
+{
+    <div class="container">
+        <a href="@Url.Action("Bugunyoklama","Okul",new { Sinif=ViewBag.Sinif,Sube=ViewBag.Sube})" class="btn btn-sm btn-info">Geri Dön</a>
+        <div class="row mt-5" id="YoklamaListeTablo">
+            <div class="col-sm-12">
+                <div class="panel panel-default card-view">
+                    <div class="panel-heading">
+                        <div class="text-center">
+                            <h6 class="panel-title bg-info"><label class="pb-25 pt-25 text-white">@ViewBag.Title</label></h6>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-wrapper collapse in">
+                        <div class="panel-body">
+                            <div class="table-wrap">
+                                <div class="table-responsive">
+                                    @using (Ajax.BeginForm("YoklamaGuncelle", "Okul", new AjaxOptions { OnSuccess = "YoklamaGuncelleResult", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+                                    {
+                                        @Html.HiddenFor(m => Model.YoklamaID)
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr class="bg-info text-white">
+                                                    <th class="text-center">Seç</th>
+                                                    <th class="text-center">Öğrenci No</th>
+                                                    <th class="text-center">Adı</th>
+                                                    <th class="text-center">Soyadı</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.liste)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center"><input type="checkbox" id="check" name="OgrenciIDListe" value="@item.OgrenciID" data-no="@item.OgrenciNo" data-ad="@item.Adi @item.Soyadi" checked="@item.secildimi" /></td>
+                                                        <td class="text-center">@item.OgrenciNo</td>
+                                                        <td class="text-center">@item.Adi</td>
+                                                        <td class="text-center">@item.Soyadi</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-12"><input type="submit" class="btn btn-success btn-small" value="Yoklama Güncelle" /></div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-sm-12">
+                <div class="text-center bg-light pb-25 pt-25"><label class="text-danger">İşlem sırasında bir hata oluştu. Yetkili olmadığınız bir işlem gerçekleştirmiş olabilirsiniz.</label></div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    <script>
+
+        $("input[type='checkbox']").change(function () {
+            if (this.checked) {
+                var no = $(this).data("no");
+                var adsoyad = $(this).data("ad");
+                toastr.success(no + "-" + adsoyad + " öğrenci seçildi.");
+            }
+        });
+
+        function YoklamaGuncelleResult(result) {
+            if (result.IsSuccess == true) {
+
+                var dialog = bootbox.dialog({
+                    title: 'BAŞARILI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-success',
+                            callback: function () {
+                                
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                                window.location.href = "/Ogretmen/YoklamaAl";
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+}

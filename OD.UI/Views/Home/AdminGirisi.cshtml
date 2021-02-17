@@ -1,0 +1,146 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Online Devamsızlık</title>
+    <link href="~/AnasayfaAssets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/toastr.css" rel="stylesheet" />
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand active" href="#">Online Devamsızlık</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/Index">Anasayfa <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/TalepOlustur">Talep Oluştur</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="~/Home/OkulGirisi">Okul Girişi</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dosyalar
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Öğrenci Listesi Şablon</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-md-6 align-middle">
+                <div class="card ">
+                    <div class="card-header bg-info text-white">Admin Giriş Paneli</div>
+                    <div class="panel-body mx-2 my-4">
+                        @using (Ajax.BeginForm("AdminGiris", "Home", new AjaxOptions { OnSuccess = "LoginResult", HttpMethod = "POST" }))
+                        {
+                            <div class="form-group">
+                                <label>Kullanıcı Adı : </label>
+                                <input type="text" class="form-control" placeholder="Kullanıcı Adınızı Yazınız" name="KullaniciAdi" required=required />
+                            </div>
+                            <div class="form-group">
+                                <label>Şifre : </label>
+                                <input type="password" class="form-control" placeholder="Şifrenizi Yazınız" name="Sifre" required=required />
+                            </div>
+                            <div class="form-group text-center">
+                                <img src="@Url.Action("CaptchaImageOlustur", "Home")" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control text-center" name="GuvenlikKodu" id="GuvenlikKodu" placeholder="Güvenlik Kodunu Yazınız" required=required />
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-info col-md-12">Giriş Yap</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/AnasayfaAssets/js/bootstrap.min.js"></script>
+    @*<script src="~/Scripts/bootbox.js"></script>*@
+    <script src="~/Scripts/bootbox.all.min.js"></script>
+    <script src="~/Scripts/toastr.min.js"></script>
+    <script src="~/Scripts/toastrcustom.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <script>
+        function LoginResult(result) {
+            if (result.IsSuccess == true) {
+                window.location.href = '@Url.Action("Index","Admin")';
+            }
+            else {
+                //bootbox.confirm({
+                //    message: result.UserMessage,
+                //    buttons: {
+                //        confirm: {
+                //            label: 'Tamam',
+                //            className: 'btn-danger'
+                //        },
+                //    },
+                //    callback: function (data) {
+                //        if (data == true) {
+                //            window.location.href = "../Home/AdminGirisi";
+                //        }
+                //    }
+                //});
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>Kullanıcı Adınızı veya Şifrenizi hatalı yazdınız. Lütfen kontrol ediniz.</p>",
+                    //size: 'large',
+                    buttons: {
+                        //cancel: {
+                        //    label: "I'm a cancel button!",
+                        //    className: 'btn-danger',
+                        //    callback: function () {
+                        //        console.log('Custom cancel clicked');
+                        //    }
+                        //},
+                        //noclose: {
+                        //    label: "I don't close the modal!",
+                        //    className: 'btn-warning',
+                        //    callback: function () {
+                        //        console.log('Custom button clicked');
+                        //        return false;
+                        //    }
+                        //},
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                                //console.log('Custom OK clicked');
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+</body>
+</html>
+

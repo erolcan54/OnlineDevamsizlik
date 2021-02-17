@@ -1,0 +1,57 @@
+﻿@model OD.Model.Donemler
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Ajax.BeginForm("DonemGuncelleislem", "Admin", new AjaxOptions { OnSuccess = "Sonuc", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(m => m.DonemID)
+            <div class="form-group">
+                <label for="#" class="col-sm-3 control-label">Dönem Adı : </label>
+                <div class="col-sm-9">
+                    <input class="form-control" name="DonemAdi" id="donemadi" type="text" placeholder="Dönem Adını Yazınız" value="@Model.DonemAdi" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="#" class="col-sm-3 control-label">Dönem Başlama Tarihi : </label>
+                <div class="col-sm-9">
+                    <input type="text" name="Baslama" class="form-control" value="@Convert.ToDateTime(Model.Baslama).ToShortDateString()" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="#" class="col-sm-3 control-label">Dönem Bitiş Tarihi : </label>
+                <div class="col-sm-9">
+                    <input type="text" name="Bitis" class="form-control" value="@Convert.ToDateTime(Model.Bitis).ToShortDateString()" required>
+                </div>
+            </div>
+            <div class="form-group mb-0">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-success" id="btndonemguncelle">Güncelle</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    function Sonuc(res) {
+        if (res.IsSuccess == true) {
+            $("#modal-fadein").modal("hide");
+            var dialog = bootbox.dialog({
+                title: 'SİSTEM MESAJI!',
+                message: "<p>" + res.UserMessage + "</p>",
+                buttons: {
+                    ok: {
+                        label: "Tamam",
+                        className: 'btn-success',
+                        callback: function () {
+                            window.location.href = '/Admin/Donemler';
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            toastr.error(data.UserMessage);
+        }
+    }
+</script>

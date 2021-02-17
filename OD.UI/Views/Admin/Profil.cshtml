@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Profil";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Admin Profil Güncelleme</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <hr class="panel-wrapper collapse in">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-wrap">
+                            @using (Ajax.BeginForm("ProfilGuncelle", "Admin", new AjaxOptions { OnSuccess = "Success", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+                            {
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Kullanıcı Adı</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" name="KullaniciAdi" class="form-control" placeholder="Kullanıcı Adı" required>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">Şifre</label>
+                                    <div class="col-sm-5">
+                                        <input type="password" class="form-control" name="Sifre" placeholder="Şifre" required>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group mb-0">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <button type="submit" class="btn btn-success">Güncelle</button>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div><!-- .widget-body -->
+        </div><!-- .widget -->
+    </div><!-- END column -->
+</div><!-- .row -->
+
+<script>
+    function Success(result) {
+        if (result.IsSuccess == true) {
+
+            $(".form-horizontal").find('input:text, input:password, input:file, select, textarea').val('');
+            $(".form-horizontal").find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+            //toastr.success(result.UserMessage);
+            bootbox.alert(result.UserMessage);
+
+            //bootbox.confirm({
+            //    message: result.UserMessage,
+            //    buttons: {
+            //        confirm: {
+            //            label: 'Tamam',
+            //            className: 'btn-success'
+            //        },
+            //    },
+            //    callback: function (data) {
+            //        if (data == true) {
+            //            window.location.href = "../Admin/Profil";
+            //        }
+            //    }
+            //});
+
+
+
+        }
+        else {
+            bootbox.alert({
+                message: result.UserMessage,
+                buttons: {
+                    confirm: {
+                        label: 'Tamam',
+                        className: 'btn-danger'
+                    },
+                }
+            });
+        }
+    };
+</script>

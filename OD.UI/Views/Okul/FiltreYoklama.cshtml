@@ -1,0 +1,164 @@
+﻿@model OD.UI.ViewModel.SinifSubeDersGrupView
+@using OD.Bll.Concrete;
+@using OD.UI.Utils;
+@{
+    Layout = "~/Views/Shared/_OkulLayout.cshtml";
+    int OkulID = Convert.ToInt32(Session["OkulID"]);
+    List<OD.UI.ViewModel.YoklamaViewModel> Yoklamaliste = ViewData["Yoklama"] as List<OD.UI.ViewModel.YoklamaViewModel>;
+    DateTime tarih = Convert.ToDateTime(ViewBag.Tarih);
+    ViewBag.Title = ViewBag.Sinif + "/" + ViewBag.Sube + " Günlük Yoklama Listesi - Tarih : " + tarih.ToLongDateString();
+    Fonksiyon f = new Fonksiyon();
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default card-view">
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="form-wrap">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.Hidden("OkulID", OkulID)
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                @Html.DropDownListFor(m => m.Sinif, new SelectList(Model.SinifGrup, "Value", "Text"), "Sınıf Seçiniz", htmlAttributes: new { @class = "form-control", @tabindex = "-1" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                @Html.DropDownListFor(model => model.Sube, Model.SubeGrup, htmlAttributes: new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" placeholder="" data-mask="99.99.9999" class="form-control" name="Tarih">
+                                                <span class="text-muted">Gün.Ay.Yıl</span>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-primary col-md-12">Listele</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- .widget-body -->
+                </div>
+            </div><!-- .widget -->
+        </div><!-- END column -->
+    </div><!-- .row -->
+</div>
+@if (Yoklamaliste != null && Yoklamaliste.Count != 0 && Convert.ToBoolean(ViewBag.SecimVarmi) == true)
+{
+    <div class="container">
+        <a href="@Url.Action("YoklamaPDFAktar", "Okul", new { Sinif =ViewBag.Sinif,Sube=ViewBag.Sube,title=ViewBag.Title,Tarih=tarih})" class="btn btn-primary" target="_blank">PDF Aktar</a>
+        @*<a href="#" id="guncelle" data-sinif="@ViewBag.Sinif" data-sube="@ViewBag.Sube" class="btn btn-success">Listeyi Güncelle</a>*@
+        <div class="row mt-5" id="YoklamaListeTablo">
+            <div class="col-sm-12">
+                <div class="panel panel-default card-view">
+                    <div class="panel-heading">
+                        <div class="text-center">
+                            <h6 class="panel-title txt-primary">@ViewBag.Title</h6>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-wrapper collapse in">
+                        <div class="panel-body">
+                            <div class="table-wrap">
+                                <div class="table-responsive">
+                                    <table id="asd" class="table table-hover display  pb-30">
+                                        <thead>
+                                            <tr>
+                                                <th>Öğrenci No</th>
+                                                <th>Adı</th>
+                                                <th>Soyadı</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Yoklamaliste)
+                                            {
+                                                <tr>
+                                                    <td class="bg-light text-danger" colspan="3">@f.DersSaatiGetir((int)item.DersGrupID).DersGrupAdi - @f.DersGetir((int)item.DersID).DersAdi - @f.OgretmenGetir((int)item.OgretmenID).AdSoyad</td>
+                                                </tr>
+
+                                                if (item.OgrenciIDListe != null)
+                                                {
+                                                    for (int i = 0; i < item.OgrenciIDListe.Length; i++)
+                                                    {
+                                                        <tr>
+                                                            <td>@f.OgrenciGetir(Convert.ToInt32(item.OgrenciIDListe[i])).OgrenciNo</td>
+                                                            <td>@f.OgrenciGetir(Convert.ToInt32(item.OgrenciIDListe[i])).Adi</td>
+                                                            <td>@f.OgrenciGetir(Convert.ToInt32(item.OgrenciIDListe[i])).Soyadi</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <tr><td class="text-success" colspan="3">Sınıfta gelmeyen öğrenci yoktur.</td></tr>
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if ((Yoklamaliste == null || Yoklamaliste.Count == 0) && Convert.ToBoolean(ViewBag.SecimVarmi) == true)
+{
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="panel panel-default card-view">
+                    <div class="panel-heading">
+                        <div class="text-center">
+                            <h6 class="panel-title txt-primary">@ViewBag.Title</h6>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-wrapper collapse in">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="text-center text-danger">
+                                    Seçilen sınıf ve şube için bugün yoklama alınmamış.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker();
+        });
+
+        $("#Sinif").change(function () {
+            var id = $(this).val();
+            var SubeListe = $("#Sube");
+            SubeListe.empty();
+            $.ajax({
+                url: '/Okul/SinifSubeFiltre/',
+                type: 'POST',
+                dataType: 'json',
+                data: { 'id': id },
+                success: function (data) {
+                    SubeListe.append('<option value=0>Şube Seçiniz</option>');
+                    $.each(data, function (index, option) {
+                        SubeListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                    });
+                }
+            });
+        });
+    </script>
+}
+

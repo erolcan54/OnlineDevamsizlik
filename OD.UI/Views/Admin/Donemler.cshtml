@@ -1,0 +1,185 @@
+﻿@model List<OD.Model.Donemler>
+@{
+    ViewBag.Title = "Donemler";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Dönem Ekle</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-wrap">
+                                @using (Ajax.BeginForm("DonemEkle", "Admin", new AjaxOptions { OnSuccess = "Success", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+                                {
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Kullanıcı Adı</label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" name="DonemAdi" id="donemadi" type="text" placeholder="Dönem Adını Yazınız" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Dönem Başlama Tarihi</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" name="Baslama" class="form-control" placeholder="Dönem Başlangıç Tarihini Yazınız">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Dönem Bitiş Tarihi</label>
+                                        <div class="col-sm-5">
+                                            <input type="text" name="Bitis" class="form-control" placeholder="Dönem Bitiş Tarihini Yazınız" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-0">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-success">Ekle</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .widget-body -->
+            </div>
+
+        </div><!-- .widget -->
+    </div><!-- END column -->
+</div><!-- .row -->
+
+<div class="row">
+    <!-- Table Hover -->
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Dönem Listesi</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="table-wrap">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Dönem Adı</th>
+                                        <th>Başlama Tarihi</th>
+                                        <th>Bitiş Tarihi</th>
+                                        <th>Durum</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Count == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="3" class="text-muted text-center text-danger">Dönem Listesi Bulunamadı.</td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td>@item.DonemID</td>
+                                                <td>@item.DonemAdi</td>
+                                                <td>@Convert.ToDateTime(item.Baslama).ToLongDateString()</td>
+                                                <td>@Convert.ToDateTime(item.Bitis).ToLongDateString()</td>
+                                                <td>
+                                                    @if (@item.AktifMi == true)
+                                                    {<span class="text-success"><strong>Aktif</strong></span>}
+                                                    else
+                                                    {<span class="text-warning"><strong>Pasif</strong></span>}
+                                                </td>
+                                                <td>
+                                                    @if (item.AktifMi == true)
+                                                    {
+                                                        <a href="#" class="btn btn-default" id="Guncelleislem" data-id="@item.DonemID">Güncelle</a>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-fadein" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Dönem Güncelle</h4>
+            </div>
+            <div class="modal-body" id="DonemGuncelle">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).on("click", "#Guncelleislem", function () {
+
+            var id = $(this).data("id");
+            var url = "/Admin/_DonemGuncelleme/" + id;
+
+            $("#DonemGuncelle").load(url, function () {
+                $("#modal-fadein").modal("show");
+            })
+        });
+
+        function Success(result) {
+            if (result.IsSuccess == true) {
+
+                var dialog = bootbox.dialog({
+                    title: 'SİSTEM MESAJI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-success',
+                            callback: function () {
+                                window.location.href = '/Admin/Donemler';
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>Dönem ekleme işlemi sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+}
+

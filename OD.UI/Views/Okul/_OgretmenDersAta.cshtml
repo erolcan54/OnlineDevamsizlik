@@ -1,0 +1,262 @@
+﻿@model OD.UI.ViewModel.SinifSubeDersGrupView
+@{
+    List<OD.Model.Dersler> dersliste = ViewData["DersListe"] as List<OD.Model.Dersler>;
+    OD.Model.Ogretmenler ogretmen = ViewBag.Ogretmen as OD.Model.Ogretmenler;
+    List<OD.Model.AtananDersler> atanandersler = ViewData["OgretmeneAtananDersler"] as List<OD.Model.AtananDersler>;
+}
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-wrap">
+                                @using (Ajax.BeginForm("DersAtamasiYap", "Okul", new AjaxOptions { OnSuccess = "Success", HttpMethod = "POST" }, new { @class = "form-horizontal", id = "AddNewDers" }))
+                                {
+                                    @Html.Hidden("OgretmenID", ogretmen.OgretmenID)
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Öğretmen Adı Soyadı</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" name="Donem" id="donem" type="text" value="@ogretmen.AdSoyad.ToUpper()" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Sınıf Seçiniz</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(m => m.Sinif, new SelectList(Model.SinifGrup, "Value", "Text"), "Sınıf Seçiniz", htmlAttributes: new { @class = "form-control", @tabindex = "-1" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Şube Seçiniz</label>
+                                        <div class="col-sm-8">
+                                            @Html.DropDownListFor(model => model.Sube, Model.SubeGrup, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ders Listesi</label>
+                                        <div class="col-sm-8">
+                                            @*<select class="form-control" name="DersID">
+                                                    <option value="0">Ders Seçiniz</option>
+                                                    @foreach (var item in dersliste)
+                                                    {
+                                                        <option value="@item.DersID">@item.DersAdi</option>
+                                                    }
+                                                </select>*@
+
+                                            @Html.DropDownListFor(model => model.DersID, Model.DersListe, htmlAttributes: new { @class = "form-control" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-0">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-success">Ekle</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .widget-body -->
+            </div>
+        </div><!-- .widget -->
+    </div><!-- END column -->
+</div><!-- .row -->
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <table class="table table-responsive table-hover">
+            <thead>
+                <tr>
+                    @*<th>Seç</th>*@
+                    <th>Sınıf</th>
+                    <th>Şube</th>
+                    <th>Ders</th>
+                    <th>Sil</th>
+                </tr>
+            </thead>
+            <tbody id="SetDersList">
+            </tbody>
+        </table>
+    </div><!-- END column -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        DataBind();
+    })
+
+    $("#Sinif").change(function () {
+        var id = $(this).val();
+        var SubeListe = $("#Sube");
+        SubeListe.empty();
+        $.ajax({
+            url: '/Okul/SinifSubeFiltre/',
+            type: 'POST',
+            dataType: 'json',
+            data: { 'id': id },
+            success: function (data) {
+                SubeListe.append('<option value=0>Şube Seçiniz</option>');
+                $.each(data, function (index, option) {
+                    SubeListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                });
+            }
+        });
+    });
+
+    $("#Sinif").change(function () {
+        var id = $(this).val();
+        var DersListe = $("#DersID");
+        DersListe.empty();
+        $.ajax({
+            url: '/Okul/SinifDersFiltre/',
+            type: 'POST',
+            dataType: 'json',
+            data: { 'id': id },
+            success: function (data) {
+                DersListe.append('<option value=0>Ders Seçiniz</option>');
+                $.each(data, function (index, option) {
+                    DersListe.append('<option value=' + option.Value + '>' + option.Text + '</option>');
+                });
+            }
+        });
+    });
+
+    function Success(result) {
+        if (result.IsSuccess == true) {
+            toastr.success(result.UserMessage);
+            $("#SetDersList").html("");
+            DataBind();
+            document.getElementById("AddNewDers").reset();
+            //var dialog = bootbox.dialog({
+            //    title: 'TEBRİKLER',
+            //    message: "<p>" + result.UserMessage + "</p>",
+            //    buttons: {
+            //        ok: {
+            //            label: "Tamam",
+            //            className: 'btn-success',
+            //            callback: function () {
+            //                DataBind();
+            //                document.getElementById("AddNewDers").reset();
+            //            }
+            //        }
+            //    }
+            //});
+        }
+        else {
+            var dialog = bootbox.dialog({
+                title: 'UYARI!',
+                message: "<p>" + result.UserMessage + "</p>",
+                buttons: {
+                    ok: {
+                        label: "Tamam",
+                        className: 'btn-danger',
+                        callback: function () {
+                        }
+                    }
+                }
+            });
+        }
+    };
+
+    function DataBind() {
+        var id =@Html.Raw(ogretmen.OgretmenID);
+        var url = "/Okul/OgretmeneAtananDersler/" + id;
+        var SetData = $("#SetDersList");
+        SetData.html("");
+        $.getJSON(url, function (DersListe) {
+                for (var i in DersListe.Result) {
+                    //var checkbox = "<div class='custom-control custom-checkbox'><input type='checkbox' name='secilmis' value='" + DersListe.Result[i].ID + "' /></div>";
+                    //var checkbox = "<div class='custom-control custom-checkbox'><input type='checkbox' name='secilmis' class='custom-control-input' id='same-address' value='" + CargoList.Result[i].ID + "'></div>";
+                    var Data = "<tr>" +
+                        //"<td>" + checkbox + "</td>" +
+                        "<td>" + DersListe.Result[i].Sinif + "</td>" +
+                        "<td>" + DersListe.Result[i].Sube + "</td>" +
+                        "<td>" + DersListe.Result[i].DersAdi + "</td>" +
+                       // "<td>" + "<a href='#' class='btn btn-primary btn-icon-anim btn-circle' id='Edit' data-id='" + DersListe.Result[i].ID + "'><i class='fa fa-pencil'></i></a>" + "</td>" +
+                        "<td>" + "<a href='#' class='btn btn-danger btn-icon-anim btn-circle' id='Delete' data-id='" + DersListe.Result[i].ID + "'><i class='fa fa-times'></i>" + "</td>" +
+                        "</tr>";
+                    SetData.append(Data);
+                }
+            });
+    };
+
+    
+    $(document).on("click", "#Delete", function () {
+        var id = $(this).data("id");
+
+        $.ajax({
+            url: '/Okul/AtananDersSil/' + id,
+            type: 'POST',
+            success: function (result) {
+                if (result.IsSuccess == true) {
+                    //window.location.href = '/Okul/DersAtamalari';
+                    $("#SetDersList").html("");
+                    DataBind();
+                    toastr.success(result.UserMessage);
+                }
+                else {
+                    var dialog = bootbox.dialog({
+                        title: 'HATA',
+                        message: "<p>" + result.UserMessage + "</p>",
+                        buttons: {
+                            ok: {
+                                label: "Tamam",
+                                className: 'btn-danger',
+                                callback: function () {
+                                    //window.location.href = '/Okul/Dersler';
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        })
+
+
+        //var dialog = bootbox.dialog({
+        //    title: 'UYARI',
+        //    message: id+" id nolu ataması yapılan ders bilgileri silinecek, onaylıyor musunuz?</p>",
+        //    buttons: {
+        //        cancel: {
+        //            label: "Hayır",
+        //            className: 'btn-danger',
+        //            callback: function () {
+        //                toastr.info("Silme işlemi iptal edildi.");
+        //            }
+        //        },
+        //        ok: {
+        //            label: "Evet",
+        //            className: 'btn-success',
+        //            callback: function () {
+        //                $.ajax({
+        //                    url: '/Okul/AtamaDersSil/' + id,
+        //                    type: 'POST',
+        //                    success: function (result) {
+        //                        if (result.IsSuccess == true) {
+        //                            window.location.href = '/Okul/DersAtamalari';
+        //                        }
+        //                        else {
+        //                            var dialog = bootbox.dialog({
+        //                                title: 'HATA',
+        //                                message: "<p>" + result.UserMessage + "</p>",
+        //                                buttons: {
+        //                                    ok: {
+        //                                        label: "Tamam",
+        //                                        className: 'btn-danger',
+        //                                        callback: function () {
+        //                                            //window.location.href = '/Okul/Dersler';
+        //                                        }
+        //                                    }
+        //                                }
+        //                            });
+        //                        }
+        //                    }
+        //                })
+        //            }
+        //        }
+        //    }
+        //});
+    });
+</script>

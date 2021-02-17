@@ -1,0 +1,271 @@
+﻿@model List<OD.Model.Dersler>
+@{
+    ViewBag.Title = ViewBag.Donem + " - Ders Listesi";
+    Layout = "~/Views/Shared/_OkulLayout.cshtml";
+}
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-heading">
+                <div class="pull-left">
+                    <h6 class="panel-title txt-dark">Ders Ekle</h6>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <div class="form-wrap">
+                                @using (Ajax.BeginForm("DersEkle", "Okul", new AjaxOptions { OnSuccess = "Success", HttpMethod = "POST" }, new { @class = "form-horizontal" }))
+                                {
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Ders Adı</label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" name="DersAdi" id="DersAdi" type="text" placeholder="Ders Adı" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Sınıf Düzeyi</label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" name="SinifDuzey" id="sinifduzey" placeholder="Sınıf Düzeyi" type="number" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Dönem Adı</label>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" name="Donem" id="donem" type="text" value="@ViewBag.Donem" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0">
+                                        <div class="col-sm-offset-3 col-sm-9">
+                                            <button type="submit" class="btn btn-success">Ekle</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .widget-body -->
+            </div>
+
+        </div><!-- .widget -->
+    </div><!-- END column -->
+</div><!-- .row -->
+
+<div class="row mt-5">
+    <div class="col-sm-12">
+        <div class="panel panel-default card-view">
+            <div class="panel-wrapper collapse in">
+                <div class="panel-body">
+                    @if (Model.Count == 0)
+                    {
+                        <div class="row text-center">
+                            <label class="text-danger"><strong>Veritabanında kayıtlı ders bilgisi bulunamadı.</strong></label>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="table-wrap">
+                            <div class="table-responsive">
+                                <table id="datable_1" class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Ders Adı</th>
+                                            <th>Sınıf Düzeyi</th>
+                                            <th>Dönem Adı</th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>@item.DersAdi.ToUpper()</td>
+                                            <td>@item.SinifDuzey</td>
+                                            <td>@item.Donemler.DonemAdi</td>
+                                            <td>
+                                                <a href="#" class="btn btn-primary btn-icon-anim btn-circle" id="guncelle" data-id="@item.DersID" data-toggle="tooltip" data-placement="top" title="Güncelle"><i class="fa fa-pencil"></i></a>
+                                                <a href="#" class="btn btn-danger btn-icon-anim btn-circle" id="sil" data-id="@item.DersID" data-dersadi="@item.DersAdi" data-toggle="tooltip" data-placement="top" title="Sil"><i class="fa fa-times"></i></a>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-info btn-icon-anim btn-circle" id="dersyenidonemaktar" data-id="@item.DersID" data-toggle="tooltip" data-placement="top" title="Yeni Döneme Aktar"><i class="fa fa-check"></i></a>
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-fadein" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ders Güncelle</h4>
+            </div>
+            <div class="modal-body" id="DersGuncelle">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/Scripts/DataTable_Turkish.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#datable_1').DataTable();
+
+            // Sort by columns 1 and 2 and redraw
+            table
+                .order([1, 'asc'],[0, 'asc'])
+                .draw();
+        });
+
+
+        $(document).on("click", "#sil", function () {
+            var id = $(this).data("id");
+            var dersadi = $(this).data("dersadi");
+            var dialog = bootbox.dialog({
+                title: 'UYARI',
+                message: "<p>" + dersadi + " isimli ders silinecek, onaylıyor musunuz?</p>",
+                buttons: {
+                    cancel: {
+                        label: "Hayır",
+                        className: 'btn-danger',
+                        callback: function () {
+                            toastr.info("Ders silme işlemi iptal edildi.");
+                        }
+                    },
+                    ok: {
+                        label: "Evet",
+                        className: 'btn-success',
+                        callback: function () {
+                            $.ajax({
+                                url: '/Okul/DersSil/' + id,
+                                type: 'POST',
+                                success: function (result) {
+                                    if (result.IsSuccess == true) {
+                                        window.location.href = '/Okul/Dersler';
+                                    }
+                                    else {
+                                        var dialog = bootbox.dialog({
+                                            title: 'HATA',
+                                            message: "<p>" + result.UserMessage + "</p>",
+                                            buttons: {
+                                                ok: {
+                                                    label: "Tamam",
+                                                    className: 'btn-danger',
+                                                    callback: function () {
+                                                        //window.location.href = '/Okul/Dersler';
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            })
+                        }
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", "#guncelle", function () {
+            var id = $(this).data("id");
+            var url = "/Okul/_DersGuncelle/" + id;
+
+            $("#DersGuncelle").load(url, function () {
+                $("#modal-fadein").modal("show");
+            })
+        });
+
+        $(document).on("click", "#dersyenidonemaktar", function () {
+            var id = $(this).data("id");
+
+            $.ajax({
+                url: "/Okul/DersYeniDonemAktar/" + id,
+                type: 'POST',
+                dataType: 'Json',
+                success: function (result) {
+                    if (result.IsSuccess == true) {
+
+                        var dialogsuccess = bootbox.dialog({
+                            title: 'Tamam',
+                            message: "<p>" + result.UserMessage + "</p>",
+                            buttons: {
+                                ok: {
+                                    label: "Tamam",
+                                    className: 'btn-success',
+                                    callback: function () {
+                                        window.location.href = '/Okul/Dersler';
+                                    }
+                                }
+                            }
+                        });
+
+                    }
+                    else {
+                        var dialogerror = bootbox.dialog({
+                            title: 'UYARI',
+                            message: "<p>" + result.UserMessage + "</p>",
+                            buttons: {
+                                ok: {
+                                    label: "Tamam",
+                                    className: 'btn-primary',
+                                    callback: function () {
+                                        //window.location.href = '/Okul/Dersler';
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        });
+
+        function Success(result) {
+            if (result.IsSuccess == true) {
+
+                var dialog = bootbox.dialog({
+                    title: 'TEBRİKLER',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-success',
+                            callback: function () {
+                                window.location.href = '/Okul/Dersler';
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                var dialog = bootbox.dialog({
+                    title: 'UYARI!',
+                    message: "<p>" + result.UserMessage + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Tamam",
+                            className: 'btn-danger',
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+}

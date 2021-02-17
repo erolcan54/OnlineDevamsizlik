@@ -1,0 +1,32 @@
+﻿@model OD.Model.Ogretmenler
+@using OD.Model
+@using OD.Bll.Concrete
+@{
+    AtananDerslerRepository atanandersrepo = new AtananDerslerRepository();
+    DonemlerRepository donemrepo = new DonemlerRepository();
+    Donemler donem = donemrepo.GetByFilter(a => a.AktifMi == true);
+    List<AtananDersler> dersler = atanandersrepo.GetByFilterList(a => a.OgretmenID == Model.OgretmenID && a.AktifMi == true && a.DonemID == donem.DonemID);
+    var liste = from k in dersler
+                orderby k.Sinif, k.Sube, k.Dersler.DersAdi
+                select new
+                {
+                    ID = k.AtananDersID,
+                    Sinif = k.Sinif,
+                    Sube = k.Sube.ToUpper(),
+                    DersAdi = k.Dersler.DersAdi
+                };
+}
+@if (liste == null || liste.Count()==0)
+{
+    <span class="text-danger"><b>Öğretmene atanmış ders bulunmamaktadır.</b></span>
+}
+else
+{
+    <span class="text-primary">Toplam Ders Atama Sayısı : @liste.Count()</span>
+    <ul>
+        @foreach (var item in liste)
+        {
+            <li>@item.Sinif - @item.Sube - @item.DersAdi</li>
+        }
+    </ul>
+}
